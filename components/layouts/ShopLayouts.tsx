@@ -1,3 +1,4 @@
+import { Navbar } from "components/ui";
 import Head from "next/head"
 
 
@@ -25,7 +26,7 @@ export const ShopLayouts = ({ children,title,pageDescription,imageFullUrl  }:Pro
     </Head>
 
     <nav>
-        {/* NavBar */}
+        <Navbar/>
     </nav>
 
     {/* todo : SideBar */}
