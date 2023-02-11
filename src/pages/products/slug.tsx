@@ -1,7 +1,8 @@
 import { Button, Chip, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { ShopLayouts } from "components/layouts";
-import { ProductSlideshow } from "components/products";
+import { ProductSlideshow, SizeSelextor } from "components/products";
+import { ItemCouter } from "components/ui";
 import { initialData } from '../../../database/products';
 
 const product = initialData.products[0];
@@ -26,8 +27,12 @@ const ProductPage = () => {
                             {/*cantidad  */}
                             <Box sx={{ my:2 }} >
                                 <Typography variant='subtitle2' >Cantidad</Typography>
-                             {/* ItemCounter */}
-
+                             <ItemCouter />
+                             <SizeSelextor 
+                             selectedSize={ product.sizes[5] }
+                             sizes={product.sizes}
+                             />
+                             </Box>
                              {/* Agregar al carrito  */}
                              <Button sx={{ backgroundColor:'#274494' }}  color='error' className="circular-btn" >
                                 Agregar al Carrito
@@ -40,7 +45,6 @@ const ProductPage = () => {
                              </Box>
                             </Box>
 
-                </Box>
             </Grid>
         </Grid>
     </ShopLayouts>
