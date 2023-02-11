@@ -1,4 +1,4 @@
-import { Navbar } from "components/ui";
+import { Navbar, SideMenu } from "components/ui";
 import Head from "next/head"
 
 
@@ -30,7 +30,7 @@ export const ShopLayouts = ({ children,title,pageDescription,imageFullUrl  }:Pro
     </nav>
 
     {/* todo : SideBar */}
-
+        <SideMenu />
     <main style={{ margin:'80px auto', maxWidth:'1440px', padding:'0px 30px' }} >
         { children }
     </main>
