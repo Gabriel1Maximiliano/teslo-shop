@@ -22,21 +22,24 @@ const productSchema = new Schema({
         type: String,
         enum:{
             values:['XS','S','M','L','XL','XXL','XXXL'],
-            message:'{VALUE} no es un tamaño permitido'
+            message: '{VALUE} is not a size supported' 
         }
     }],
     slug:{ type:String, required:true,unique:true },
     tags:[{type:String}],
     title:{ type:String },
-    type:{
-        enum:['shirts','pants','hoodies','hats'],
-        message:'{VALUE} no es un tipo permitido'
+    type: {
+        type: String,
+        enum: {
+            values: ['shirts','pants','hoodies','hats'],
+            message: '{VALUE} no es un tipo válido'
+        }
     },
     gender:{
         type:String,
         enum:{
             values:['men','women','kid','unisex'],
-            message:'{VALUE} no es un género válido'
+            message: '{VALUE} is not a valid genre' 
         }
     }
 },{
