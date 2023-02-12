@@ -56,7 +56,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                         
                         {
                             editable && (
-                                <Button variant='text' color='secondary' >
+                                <Button variant='text'sx={{ backgroundColor:'#274494' }} color='secondary' >
                                     Remover
                                 </Button>
                             )
