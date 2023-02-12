@@ -9,6 +9,7 @@ interface Props {
     imageFullUrl?: string;
     children?: any;
 }
+
 export const ShopLayouts = ({ children,title,pageDescription,imageFullUrl  }:Props) => {
   return (
     <>
