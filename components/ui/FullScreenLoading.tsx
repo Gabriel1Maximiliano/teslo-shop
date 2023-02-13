@@ -2,7 +2,11 @@ import { Box, CircularProgress, Typography } from "@mui/material"
 import { ShopLayouts } from "components/layouts"
 
 
+
 export const FullScreenLoading = () => {
+
+    
+
   return (
     <ShopLayouts title="Loading..." pageDescription="There is a loading page">
         <Box  display='flex' 

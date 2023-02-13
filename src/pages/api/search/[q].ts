@@ -17,7 +17,7 @@ export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
            return getSearchProducts( req,res )
     
         default:
-            return res.status(200).json({ message: 'Example' })
+            return res.status(200).json({ message: 'Soy el end poit de query' })
     }
     
 }

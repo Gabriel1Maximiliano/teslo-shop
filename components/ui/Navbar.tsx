@@ -19,7 +19,7 @@ export const Navbar = () => {
                             <Button>Hombres</Button>
                        </Link> 
                     </NextLink>
-                    <NextLink href='/category/woman' passHref legacyBehavior >
+                    <NextLink href='/category/women' passHref legacyBehavior >
                        <Link>
                             <Button>Mujeres</Button>
                        </Link>
