@@ -7,6 +7,7 @@ interface Props {
   product:IProduct;
 }
 export const ProductCards = ({ product }:Props) => {
+  
 
 const [isHoover, setIsHoover] = useState(false);
 const [ isImageLoaded,setIsImageLoaded ] = useState(false);
@@ -25,7 +26,7 @@ const productImage = useMemo(()=>{
      onMouseLeave={ () => setIsHoover( false ) }
      >
     <Card>
-      <NextLink href="/products/slug" passHref prefetch={false} legacyBehavior>
+      <NextLink href={`/product/${product.slug}`} passHref prefetch={false} legacyBehavior>
         <Link>
       <CardActionArea>
         <CardMedia
