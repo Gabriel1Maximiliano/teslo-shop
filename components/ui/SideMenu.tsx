@@ -38,6 +38,7 @@ const onSearchTerm =()=>{
 
                 <ListItem>
                     <Input
+                    autoFocus
                   value={ searchTerm }
                   onChange={ (e) => setSearchTerm( e.target.value ) }
                   onKeyPress={ (e) => e.code === 'Enter' ? onSearchTerm() : null }
