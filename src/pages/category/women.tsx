@@ -6,7 +6,7 @@ import { useProducts } from "hooks";
 
 const WomenPage = () => {
   const { products, isLoading } = useProducts('/products?gender=women');
-  console.log({women:products})
+  
   return (
     
   

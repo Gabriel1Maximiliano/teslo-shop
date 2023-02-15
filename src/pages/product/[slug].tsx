@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next'
 import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { ShopLayouts } from "components/layouts";
@@ -6,7 +7,7 @@ import { ItemCouter } from "components/ui";
 import { dbProducts } from "database";
 import { initialData } from "database/products";
 import { useProducts } from "hooks";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 
 import { IProduct } from '../../../interfaces/products';
@@ -64,27 +65,71 @@ const ProductPage = ( props:any) => {
 } 
 
 
-export const getServerSideProps:GetServerSideProps =async({ params })=>{
-  console.log('pase por getProductBySlug')
-  const { slug = '' } = params as { slug: string };
-  console.log({ params })
-  const props = await dbProducts.getProductBySlug( slug );
+// export const getServerSideProps:GetServerSideProps =async({ params })=>{
+//   console.log('pase por getProductBySlug')
+//   const { slug = '' } = params as { slug: string };
+//   console.log({ params })
+//   const props = await dbProducts.getProductBySlug( slug );
 
-  if ( !props ) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
+//   if ( !props ) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false
+//       }
+//     }
+//   }
+
+//   return {
+//     props:props 
+   
+//     }
+// }
+
+
+export const  getStaticPaths:GetStaticPaths = async()=> {
+
+  const productSlugs = await dbProducts.getAllproductSlugs();
+
+
 
   return {
-    props:props 
-   
-    }
+    paths: productSlugs.map( obj=>(
+      {
+        params:{
+          slug:obj.slug
+        }
+      }
+    ) ),
+    fallback: 'blocking', // can also be true or 'blocking'
+  }
 }
 
+// You should use getStaticProps when:
+//- The data required to render the page is available at build time ahead of a user’s request.
+//- The data comes from a headless CMS.
+//- The data can be publicly cached (not user-specific).
+//- The page must be pre-rendered (for SEO) and be very fast — getStaticProps generates HTML and JSON files, both of which can be cached by a CDN for performance.
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const { slug='' } =  params as { slug:string }; 
+  
+  const props = await dbProducts.getProductBySlug( slug );
+  
+if( !props ){
+
+  return {
+          redirect: {
+          destination: '/',
+          permanent: false
+         }  
+  }
+}
+  return {
+    props:props,
+    revalidate:60*60*24
+  }
+}
 export default ProductPage;
 
 
