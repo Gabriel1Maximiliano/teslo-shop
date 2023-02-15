@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Chip, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { ShopLayouts } from "components/layouts";
 import { ProductSlideshow, SizeSelextor } from "components/products";
@@ -10,7 +10,8 @@ import { useProducts } from "hooks";
 import { GetServerSideProps, GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 
-import { IProduct } from '../../../interfaces/products';
+import { IProduct, ISizes } from '../../../interfaces/products';
+import { useState } from 'react';
 
 //const props = initialData.products[0];
 
@@ -19,6 +20,38 @@ interface Props {
 }
 
 const ProductPage = ( props:any) => {
+
+  const [ tempCartProduct, setTempCartProduct ]= useState({
+
+    _id:props._id,
+    image:props.images[0],
+    inStock:props.isStock,
+    price:props.price, 
+    size:props.size, 
+    slug:props.slug,
+    title:props.title,
+    gender:props.gender, 
+    quantity:1,
+   });
+
+   const [count,setCount] = useState(1);
+  const selectedSize = (size:ISizes)=>{
+    setTempCartProduct( currrentProduct =>({
+      ...currrentProduct,
+      size
+    }) )
+
+  }
+
+  const onUpdatedQuantity = (quantity:number)=>{
+
+      setTempCartProduct( currentProduct =>({
+        ...currentProduct,
+        quantity
+  
+    }))
+  }
+ 
 
   return (
     
@@ -40,18 +73,37 @@ const ProductPage = ( props:any) => {
                             {/*cantidad  */}
                             <Box sx={{ my:2 }} >
                                 <Typography variant='subtitle2' >Cantidad</Typography>
-                             <ItemCouter />
+
+                             <ItemCouter 
+
+                             currentValue = {tempCartProduct.quantity}
+                             updatedQuantity = { (quantity)=>onUpdatedQuantity(quantity) }
+                             maxValue ={ props.inStock } 
+                             />
+
+
                              <SizeSelextor 
                              //selectedSize={ props.sizes[1] }
                              sizes={props.sizes}
+                             selectedSize={ tempCartProduct.size } 
+                            onSelectedSize={ (size) => selectedSize(size) }
                              />
                              </Box>
                              {/* Agregar al carrito  */}
-                             <Button sx={{ backgroundColor:'#274494' }}  color='error' className="circular-btn" >
-                                Agregar al Carrito
-                             </Button>
+                             {
+                              props.inStock > 0 ?(  <Button sx={{ backgroundColor:'#274494' }}  color='error' className="circular-btn" >
+                              {
 
-                             {/* <Chip label='No hay disponible' color="error" variant="outlined" /> */}
+                               tempCartProduct.size ? 'Agregar al carrito' : 'Seleccione una talla'
+                            
+                               }
+                           </Button>) :(
+
+                              <Chip label='No hay disponible' color="error" variant="outlined" /> 
+                           )
+                             }
+                           
+
                              <Box sx={{ mt:3 }} >
                                 <Typography variant='subtitle2' >Descripción</Typography>
                                 <Typography variant='body2' >{ props.description }</Typography>

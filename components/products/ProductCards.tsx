@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material'
+import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
 import { useMemo, useState } from 'react';
 import { IProduct } from '../../interfaces/products';
 import  NextLink from 'next/link';
@@ -28,7 +28,18 @@ const productImage = useMemo(()=>{
     <Card>
       <NextLink href={`/product/${product.slug}`} passHref prefetch={false} legacyBehavior>
         <Link>
+      
       <CardActionArea>
+        {
+          (product.inStock === 0)  && (
+            <Chip 
+      label='No hay disponibles'
+        sx={{ position:'absolute',zIndex:99,top:'10px',left:'10px',color:'white',backgroundColor:'black'}}
+        />
+          )
+        }
+      
+
         <CardMedia
 
         className='fadeIn'
