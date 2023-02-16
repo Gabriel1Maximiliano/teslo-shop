@@ -8,11 +8,11 @@ interface Props {
   maxValue?:number|'undefined';
 
   //Methods
-  updatedQuantity?: (newValue:number) => void|undefined
+  onUpdatedQuantity?: (newValue:number) => void|any
 
 
 }
-export const ItemCouter = ({ currentValue=1,maxValue,updatedQuantity }:Props) => {
+export const ItemCouter = ({ currentValue=1,maxValue,onUpdatedQuantity }:Props) => {
 
   const addOrRemove = (value:number) =>{
 
@@ -21,13 +21,13 @@ export const ItemCouter = ({ currentValue=1,maxValue,updatedQuantity }:Props) =>
     return;
   }
 
-  return currentValue && updatedQuantity!(currentValue! - 1)
+  return  onUpdatedQuantity!((currentValue - 1))
     }
     if(currentValue >= maxValue! ){
       return;
     }
 
-    updatedQuantity!(currentValue + 1);
+    onUpdatedQuantity!(currentValue + 1);
 
   }
   return (

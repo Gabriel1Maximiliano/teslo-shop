@@ -5,13 +5,13 @@ import { ShopLayouts } from "components/layouts";
 import { ProductSlideshow, SizeSelextor } from "components/products";
 import { ItemCouter } from "components/ui";
 import { dbProducts } from "database";
-import { initialData } from "database/products";
-import { useProducts } from "hooks";
-import { GetServerSideProps, GetStaticPaths } from "next";
-import { useRouter } from "next/router";
+
+import {  GetStaticPaths } from "next";
+
 
 import { IProduct, ISizes } from '../../../interfaces/products';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { CartContext } from '../../../context/cart/CartContext';
 
 //const props = initialData.products[0];
 
@@ -20,6 +20,8 @@ interface Props {
 }
 
 const ProductPage = ( props:any) => {
+
+ const { addProductCart } =  useContext( CartContext );
 
   const [ tempCartProduct, setTempCartProduct ]= useState({
 
@@ -34,7 +36,7 @@ const ProductPage = ( props:any) => {
     quantity:1,
    });
 
-   const [count,setCount] = useState(1);
+  
   const selectedSize = (size:ISizes)=>{
     setTempCartProduct( currrentProduct =>({
       ...currrentProduct,
@@ -43,6 +45,7 @@ const ProductPage = ( props:any) => {
 
   }
 
+
   const onUpdatedQuantity = (quantity:number)=>{
 
       setTempCartProduct( currentProduct =>({
@@ -50,6 +53,13 @@ const ProductPage = ( props:any) => {
         quantity
   
     }))
+  }
+
+  const onAddProductCart = ()=>{
+
+    if( !tempCartProduct ) return;
+    addProductCart(tempCartProduct);
+
   }
  
 
@@ -77,7 +87,7 @@ const ProductPage = ( props:any) => {
                              <ItemCouter 
 
                              currentValue = {tempCartProduct.quantity}
-                             updatedQuantity = { (quantity)=>onUpdatedQuantity(quantity) }
+                             onUpdatedQuantity = { onUpdatedQuantity}
                              maxValue ={ props.inStock } 
                              />
 
@@ -91,7 +101,11 @@ const ProductPage = ( props:any) => {
                              </Box>
                              {/* Agregar al carrito  */}
                              {
-                              props.inStock > 0 ?(  <Button sx={{ backgroundColor:'#274494' }}  color='error' className="circular-btn" >
+                              props.inStock > 0 ?( 
+                                 <Button sx={{ backgroundColor:'#274494' }}  
+                                 color='error' className="circular-btn" 
+                                 onClick={ onAddProductCart }
+                                 >
                               {
 
                                tempCartProduct.size ? 'Agregar al carrito' : 'Seleccione una talla'
