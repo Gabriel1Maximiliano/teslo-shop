@@ -8,6 +8,12 @@ type UITypeAtion =
 |{type:'[Cart]- Update-products-in-cart',payload:ICartProduct[]}
 |{type:'[Cart]- Change-cart-quantity',payload:ICartProduct}
 |{type:'[Cart]- Remove-product-in-cart',payload:ICartProduct}
+|{type:'[Cart]- Update-order-summary',payload:{
+  numberOfItems: any;
+  subTotal: any;
+  tax: number;
+  total: any;
+}}
 
 export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => {
   
@@ -35,12 +41,16 @@ export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => 
         } )
       }
       case '[Cart]- Remove-product-in-cart':
-
- 
-
       return {
         ...state,
        cart:state.cart.filter( p=> !((p.size === action.payload.size) && (p._id === action.payload._id))  ) 
+      }
+      case '[Cart]- Update-order-summary':
+
+      return {
+        ...state,
+        ...action.payload
+       
       }
 
 

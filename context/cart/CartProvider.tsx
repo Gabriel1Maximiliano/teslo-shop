@@ -7,10 +7,19 @@ import { AnyNaptrRecord } from 'dns';
 
 export interface CartState {
     cart:ICartProduct[] | [];
+    numberOfItems: number;
+    subTotal: number;
+    tax: number;
+    total: number;
 }
 
 const Cart_Initial_State:CartState={
-    cart:[]}
+    cart:[],
+    numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
+  }
 
 export const CartProvider=({ children }:any):any =>{
     const [state, dispatch] = useReducer(cartReducer , Cart_Initial_State);
@@ -28,6 +37,21 @@ export const CartProvider=({ children }:any):any =>{
     useEffect(() => {
    Cookie.set( 'cart', JSON.stringify( state.cart ) )
     }, [state!.cart])
+
+    useEffect(() => {
+     const numberOfItems= state.cart.reduce( ( prev:number,current: any ) => current.quantity + prev,0 )
+     const subTotal = state.cart.reduce(( prev:number,current: any ) => (current.price * current.quantity)+ prev,0);
+     const taxRate = Number( process.env.NEXT_PUBLIC_TAX_RATE )
+      const orderSummary = {
+        numberOfItems,
+        subTotal,
+        tax: subTotal *taxRate,
+        total: subTotal + ( taxRate +1 ) 
+      }
+     dispatch( { type:'[Cart]- Update-order-summary',payload:orderSummary } )
+      }
+    , [state!.cart])
+    
     
 
 const addProductCart = (product:ICartProduct) =>{

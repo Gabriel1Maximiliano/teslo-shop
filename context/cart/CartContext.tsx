@@ -4,6 +4,10 @@ import { createContext } from 'react';
 
 export interface ContextProps{
 cart: ICartProduct[] | any;
+numberOfItems: number;
+    subTotal: number;
+    tax: number;
+    total: number;
 
 //Methods
 addProductCart: (product: ICartProduct) => void;
