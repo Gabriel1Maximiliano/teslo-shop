@@ -3,10 +3,11 @@ import { createContext } from 'react';
 
 
 export interface ContextProps{
-cart: ICartProduct[] | ICartProduct;
+cart: ICartProduct[] | any;
 
 //Methods
 addProductCart: (product: ICartProduct) => void;
+updateCartQuantity: (product: ICartProduct) => void; 
 }
 
 

@@ -1,11 +1,13 @@
 
 
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import NextLink from 'next/link';
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 
 import { initialData } from '../../database/products';
 import { ItemCouter } from '../ui';
+import { ICartProduct } from 'interfaces';
+import { CartContext } from 'context/cart';
 
 const productsInCart = [
     initialData.products[0],
@@ -19,18 +21,25 @@ interface Props {
 
 export const CartList: FC<Props> = ({ editable = false }) => {
 
+     const { cart, updateCartQuantity} = useContext(CartContext);
+     console.log(cart)
+
+     const onNewCartQuantityValue = (product: ICartProduct, newQuantityValue: number) => {
+         product.quantity = newQuantityValue;
+         updateCartQuantity( product );
+     }
   return (
     <>
         {
-            productsInCart.map( product => (
+            cart.map( (product:ICartProduct) => (
                 <Grid container spacing={2} key={ product.slug } sx={{ mb:1 }}>
                     <Grid item xs={3}>
                         {/* TODO: llevar a la página del producto */}
-                        <NextLink href="/products/slug" passHref legacyBehavior>
+                        <NextLink href={`/product/${ product.slug }`} passHref legacyBehavior>
                             <Link>
                                 <CardActionArea>
                                     <CardMedia 
-                                        image={ `/products/${ product.images[0] }` }
+                                      image={ `/products/${ product.image }` }
                                         component='img'
                                         sx={{ borderRadius: '5px' }}
                                     />
@@ -41,11 +50,15 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                     <Grid item xs={7}>
                         <Box display='flex' flexDirection='column'>
                             <Typography variant='body1'>{ product.title }</Typography>
-                            <Typography variant='body1'>Talla: <strong>M</strong></Typography>
+                            <Typography variant='body1'>Talla: <strong>{ product.size }</strong></Typography>
 
                             {
                                 editable 
-                                ? <ItemCouter />
+                                ? <ItemCouter
+                                currentValue={product.quantity}
+                                maxValue={ 10 }
+                                onUpdatedQuantity={(value) =>  onNewCartQuantityValue( product,value ) }
+                                />
                                 : <Typography variant='h5'>3 items</Typography>
                             }
                             
@@ -68,3 +81,5 @@ export const CartList: FC<Props> = ({ editable = false }) => {
     </>
   )
 }
+
+
