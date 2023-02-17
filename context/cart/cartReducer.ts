@@ -7,6 +7,7 @@ type UITypeAtion =
 |{type:'[Cart]-LoadCart-from-cookies | localStorage',payload:ICartProduct[]}
 |{type:'[Cart]- Update-products-in-cart',payload:ICartProduct[]}
 |{type:'[Cart]- Change-cart-quantity',payload:ICartProduct}
+|{type:'[Cart]- Remove-product-in-cart',payload:ICartProduct}
 
 export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => {
   
@@ -24,7 +25,6 @@ export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => 
         cart:[...action.payload]
       }
       case '[Cart]- Change-cart-quantity':
-
       return {
         ...state,
         cart:state.cart.map( product =>{
@@ -33,6 +33,14 @@ export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => 
 
           return action.payload;
         } )
+      }
+      case '[Cart]- Remove-product-in-cart':
+
+ 
+
+      return {
+        ...state,
+       cart:state.cart.filter( p=> !((p.size === action.payload.size) && (p._id === action.payload._id))  ) 
       }
 
 

@@ -2,6 +2,7 @@ import { FC, useEffect, useReducer } from 'react';
 import { CartContext,cartReducer } from './';
 import { ICartProduct } from '../../interfaces/cart';
 import Cookie from 'js-cookie';
+import { AnyNaptrRecord } from 'dns';
 
 
 export interface CartState {
@@ -52,6 +53,12 @@ if( !isProductInCart ) return dispatch({ type:'[Cart]- Update-products-in-cart',
 const updateCartQuantity = (product: ICartProduct)=>{
 dispatch({type:'[Cart]- Change-cart-quantity',payload:product})
 }
+
+const removeCartProduct =( product:any )=>{
+  console.log({product})
+    dispatch({ type:'[Cart]- Remove-product-in-cart',payload:product })
+
+}
 return(
  <CartContext.Provider value={{
     ...state,
@@ -59,7 +66,8 @@ return(
 
     //Methods
     addProductCart,
-    updateCartQuantity
+    updateCartQuantity,
+    removeCartProduct
     }} >
     { children }
  </CartContext.Provider>

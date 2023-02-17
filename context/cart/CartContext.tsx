@@ -8,6 +8,7 @@ cart: ICartProduct[] | any;
 //Methods
 addProductCart: (product: ICartProduct) => void;
 updateCartQuantity: (product: ICartProduct) => void; 
+removeCartProduct: (product: ICartProduct) => void; 
 }
 
 
