@@ -8,7 +8,7 @@ import { AuthContext } from '../../context/auth/AuthContext';
 
 export const SideMenu = () => {
 
-    const { isLoggedIn,user } = useContext( AuthContext );
+    const { isLoggedIn,user,logout } = useContext( AuthContext );
 
 const router = useRouter();
 const { isMenuOpen,toggleSideMenu } =useContext( UIContext );
@@ -24,10 +24,12 @@ const onSearchTerm =()=>{
    
     navigateTo(`/search/${ searchTerm }`);
 }
-    const navigateTo = (url:string) =>{
+const navigateTo = (url:string) =>{
         toggleSideMenu();
         router.push( url );
-    }
+}
+
+
   return (
     <Drawer
         open={ isMenuOpen }
@@ -107,13 +109,15 @@ const onSearchTerm =()=>{
                
                 {
                     isLoggedIn ? (
-                        <ListItem button>
+                        <ListItem button onClick={()=>logout()} >
                         <ListItemIcon>
                             <LoginOutlined/>
                         </ListItemIcon>
                         <ListItemText primary={'Salir'} />
                     </ListItem>
-                    ):( <ListItem button>
+                    ):( <ListItem button
+                    onClick={()=>navigateTo(`/auth/login?=${ router.asPath }`)}
+                    >
                         <ListItemIcon>
                             <VpnKeyOutlined/>
                         </ListItemIcon>

@@ -32,7 +32,8 @@ const onLogginUser=async({ email,password }:FormData)=>{
         setTimeout(()=>setShowError(true),3000)
         return;
     }
-    router.replace('/');
+    const destination = router.query.p?.toString() || '/'
+    router.replace(destination);
   }
   return (
     <AuthLayout title={'Ingresar'}  >

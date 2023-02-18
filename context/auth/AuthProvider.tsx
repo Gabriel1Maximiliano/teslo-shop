@@ -4,6 +4,7 @@ import { IUser } from '../../interfaces/user';
 import { tesloApi } from 'api';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 
 export interface AuthState {
@@ -17,6 +18,8 @@ const Auth_Initial_State:AuthState={
 }
 
 export const AuthProvider =({ children }:any):any=>{
+
+const router = useRouter();
 
 useEffect(() => {
 
@@ -82,6 +85,12 @@ const registerUser = async( name:string,email:string,password:string, ): Promise
     }
   }
 }
+
+const logout =()=>{
+    Cookies.remove('token');
+    Cookies.remove('cart');
+    router.reload();
+}
 return(
  <AuthContext.Provider value={{
     ...state,
@@ -90,6 +99,7 @@ return(
     //Methods
     loginUser,
     registerUser,
+    logout,
  }} >
     { children }
  </AuthContext.Provider>
