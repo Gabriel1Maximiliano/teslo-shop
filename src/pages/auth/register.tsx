@@ -3,9 +3,12 @@ import { Box, Grid, Typography,Link, TextField, Button, Chip } from '@mui/materi
 import { tesloApi } from 'api';
 import { AuthLayout } from 'components/layouts';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { validations } from 'utils';
+import { useContext } from 'react';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 
 
@@ -15,23 +18,28 @@ type FormData = {
     password: string;
   };
 const RegisterPage = () => {
+
+   const router =  useRouter();
+
+   const { registerUser } =useContext( AuthContext );
     
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
     const [ showError,setShowError ] =useState(false);
+    const [ errorMessage,setErrorMessage ] =useState('');
 
 const onRegisterUser =async({name,email,password}:FormData)=>{
     setShowError(false);
-    try {
 
-        const {data} = await tesloApi.post('/user/register',{name,email,password})
-        const {token,user} = data;
-    
-        console.log({token,user})
-      } catch (error) {
-        console.log(error)
-        
+    const { hasError,message } = await registerUser(name,email, password);
+
+    if( hasError ){
+        setShowError(false);
+        setErrorMessage( message! )
         setTimeout(()=>setShowError(true),3000)
-      }
+        return;
+    }
+    router.replace('/');
+   
 }
   return (
     <AuthLayout title={'Ingresar'}  >
