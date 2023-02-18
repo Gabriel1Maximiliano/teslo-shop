@@ -15,3 +15,27 @@ process.env.JWT_SECRET_SEED,
  
 )
 }
+
+
+export const isValidToken = ( token:string ):Promise<string>=>{
+    if( !process.env.JWT_SECRET_SEED ){
+
+        throw new Error('There is not a seed of jwt check your environment variables')
+    }
+
+    return new Promise( (resolve,reject)=>{
+        try {
+            jwt.verify( token,process.env.JWT_SECRET_SEED || '',(err,payload)=>{
+                if(err){
+                    return reject('Invalid jwt')
+                }
+
+                const {_id} = payload as {_id:string}
+
+                resolve(_id)
+            } )
+        } catch (error) {
+            reject('Invalid jwt')
+        }
+    } )
+}
