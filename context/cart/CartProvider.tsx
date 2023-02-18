@@ -6,6 +6,7 @@ import { AnyNaptrRecord } from 'dns';
 
 
 export interface CartState {
+  isLoaded:boolean;
     cart:ICartProduct[] | [];
     numberOfItems: number;
     subTotal: number;
@@ -14,6 +15,7 @@ export interface CartState {
 }
 
 const Cart_Initial_State:CartState={
+  isLoaded:false,
     cart:[],
     numberOfItems: 0,
     subTotal: 0,

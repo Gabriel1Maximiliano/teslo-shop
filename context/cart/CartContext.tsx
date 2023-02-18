@@ -3,6 +3,7 @@ import { createContext } from 'react';
 
 
 export interface ContextProps{
+isLoaded:boolean;
 cart: ICartProduct[] | any;
 numberOfItems: number;
     subTotal: number;
