@@ -1,10 +1,13 @@
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
-import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from 'components/layouts';
-import { ConstructionOutlined } from "@mui/icons-material";
+import {  ErrorOutline } from "@mui/icons-material";
 import { validations } from 'utils';
+import { tesloApi } from "api";
+import { useState } from "react";
+
 
 type FormData = {
     email   : string,
@@ -13,9 +16,22 @@ type FormData = {
 const LoginPage = () => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+    const [ showError,setShowError ] =useState(false);
 
-    const onLogginUser=(data:FormData)=>{
-  console.log({data})
+
+const onLogginUser=async({ email,password }:FormData)=>{
+    setShowError(false);
+  try {
+
+    const {data} = await tesloApi.post('/user/login',{email,password})
+    const {token,user} = data;
+
+    console.log({token,user})
+  } catch (error) {
+    console.log(error)
+    
+    setTimeout(()=>setShowError(true),3000)
+  }
   }
   return (
     <AuthLayout title={'Ingresar'}  >
@@ -30,6 +46,13 @@ const LoginPage = () => {
            
                 <Grid item xs={12}  sx={{mt: 3 }} >
                     <Typography variant='h1'   justifyContent='center' component="h1">Iniciar Sesión</Typography>
+                    <Chip 
+                    label='No reconocemos usuario/ contrseña'
+                    color='error'
+                    icon={<ErrorOutline />}
+                    className='fadeIn'
+                    sx={{ display:showError ? 'flex':'none'  }}
+                    />
                 </Grid>
 
                 <Grid item xs={12}  sx={{mt: 3 }} >
@@ -56,7 +79,7 @@ const LoginPage = () => {
                     fullWidth
                     {...register('password',{
                         required:'This field is required',
-                        minLength:{value:6,message:'At least 3 letters'}
+                        minLength:{value:3,message:'At least 3 letters'}
                     })} 
                      error={ !!errors.password }
                 helperText={errors.password?.message}

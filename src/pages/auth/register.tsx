@@ -1,12 +1,41 @@
-import { Box, Grid, Typography,Link, TextField, Button } from '@mui/material';
+import { ErrorOutline } from '@mui/icons-material';
+import { Box, Grid, Typography,Link, TextField, Button, Chip } from '@mui/material';
+import { tesloApi } from 'api';
 import { AuthLayout } from 'components/layouts';
 import NextLink from 'next/link';
-import React from 'react'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { validations } from 'utils';
 
+
+
+type FormData = {
+    name:string;
+    email   : string;
+    password: string;
+  };
 const RegisterPage = () => {
+    
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+    const [ showError,setShowError ] =useState(false);
+
+const onRegisterUser =async({name,email,password}:FormData)=>{
+    setShowError(false);
+    try {
+
+        const {data} = await tesloApi.post('/user/register',{name,email,password})
+        const {token,user} = data;
+    
+        console.log({token,user})
+      } catch (error) {
+        console.log(error)
+        
+        setTimeout(()=>setShowError(true),3000)
+      }
+}
   return (
     <AuthLayout title={'Ingresar'}  >
-        
+         <form onSubmit={handleSubmit(onRegisterUser)} noValidate>       
         <Box  display='flex' 
         justifyContent='center'
         alignItems='center' 
@@ -15,6 +44,13 @@ const RegisterPage = () => {
         sx={{flexDirection: { xs:'column', sm:'column'}}}
         >
            
+           <Chip 
+                    label='No reconocemos usuario/ contrseña'
+                    color='error'
+                    icon={<ErrorOutline />}
+                    className='fadeIn'
+                    sx={{ display:showError ? 'flex':'none'  }}
+                    />
                
 
            <Grid item xs={12}>
@@ -22,17 +58,47 @@ const RegisterPage = () => {
                 </Grid>
 
                 <Grid item xs={12} sx={{mt: 3 }}  >
-                    <TextField label="Nombre completo" variant="filled" fullWidth />
+                    <TextField 
+                    label="Nombre completo" 
+                    variant="filled" 
+                    fullWidth 
+                    {...register('name',{
+                        required:'This field is required',
+                        minLength:{value:3,message:'At least 3 letters'}
+                    })} 
+                     error={ !!errors.name }
+                helperText={errors.name?.message}
+                    />
                 </Grid>
                 <Grid item xs={12} sx={{mt: 3 }}>
-                    <TextField label="Correo" variant="filled" fullWidth />
+                    <TextField 
+                    label="Correo" 
+                    variant="filled"
+                    type='email'
+                    fullWidth
+                    {...register('email', {required:'This field is required',
+                    validate:validations.isEmail })}
+                    error={ !!errors.email }
+                    helperText={errors.email?.message}
+                    />
                 </Grid>
                 <Grid item xs={12} sx={{mt: 3 }}>
-                    <TextField label="Contraseña" type='password' variant="filled" fullWidth />
+                    <TextField 
+                    label="Contraseña" 
+                    type='password' 
+                    variant="filled" 
+                    fullWidth 
+                    {...register('password',{
+                        required:'This field is required',
+                        minLength:{value:6,message:'At least 3 letters'}
+                    })} 
+                     error={ !!errors.password }
+                helperText={errors.password?.message}
+                    />
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button color="secondary" sx={{ backgroundColor:'#274494',mt: 3 }} className='circular-btn' size='large' fullWidth>
+                    <Button type='submit' color="secondary" sx={{ backgroundColor:'#274494',mt: 3 }} className='circular-btn' size='large' fullWidth>
                         Ingresar
                     </Button>
                 </Grid>
@@ -47,7 +113,7 @@ const RegisterPage = () => {
            
         </Box>
              
-             
+        </form>        
     </AuthLayout>
   )
 }

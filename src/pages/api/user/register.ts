@@ -37,10 +37,13 @@ return res.status(400).json({message:'Password with at least 6 characters'})
         return res.status(400).json({message:'Name with at least 3 characters'})
     }
     // validar email
+    
 
-    if( !validations.isEmail( email ) ){
-        return res.status(400).json({message:'Invalid email'})
-    }
+     if( validations.isEmail( email ) ){
+         return res.status(400).json({message:'Invalid email'})
+     }
+
+ 
     await db.connect();
     
     const user = await User.findOne({email})
