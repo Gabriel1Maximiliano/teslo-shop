@@ -3,9 +3,12 @@ import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, Confirmati
 import { useContext, useState } from 'react';
 import { UIContext } from '../../context/ui/UIContext';
 import { useRouter } from 'next/router';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 
 export const SideMenu = () => {
+
+    const { isLoggedIn,user } = useContext( AuthContext );
 
 const router = useRouter();
 const { isMenuOpen,toggleSideMenu } =useContext( UIContext );
@@ -56,24 +59,24 @@ const onSearchTerm =()=>{
                         }
                     />
                 </ListItem>
-
-                <ListItem button
-               
-                >
-                    <ListItemIcon>
-                        <AccountCircleOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Perfil'} />
-                </ListItem>
-
-                <ListItem button>
-                    <ListItemIcon>
-                        <ConfirmationNumberOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Mis Ordenes'} />
-                </ListItem>
-
-
+                        {
+                            isLoggedIn && (<><ListItem button>
+                                <ListItemIcon>
+                                    <AccountCircleOutlined/>
+                                </ListItemIcon>
+                                <ListItemText primary={'Perfil'} />
+                            </ListItem>
+            
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <ConfirmationNumberOutlined/>
+                                </ListItemIcon>
+                                <ListItemText primary={'Mis Ordenes'} />
+                            </ListItem>
+            
+            </>)
+                        }
+                
                 <ListItem button
                  onClick={()=>navigateTo('/category/men')}
                 >
@@ -101,44 +104,54 @@ const onSearchTerm =()=>{
                 </ListItem>
 
 
-                <ListItem button>
-                    <ListItemIcon>
-                        <VpnKeyOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Ingresar'} />
-                </ListItem>
-
-                <ListItem button>
-                    <ListItemIcon>
-                        <LoginOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Salir'} />
-                </ListItem>
+               
+                {
+                    isLoggedIn ? (
+                        <ListItem button>
+                        <ListItemIcon>
+                            <LoginOutlined/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Salir'} />
+                    </ListItem>
+                    ):( <ListItem button>
+                        <ListItemIcon>
+                            <VpnKeyOutlined/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Ingresar'} />
+                    </ListItem>)
+                }
+               
 
 
                 {/* Admin */}
-                <Divider />
-                <ListSubheader>Admin Panel</ListSubheader>
 
-                <ListItem button>
-                    <ListItemIcon>
-                        <CategoryOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Productos'} />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ConfirmationNumberOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Ordenes'} />
-                </ListItem>
-
-                <ListItem button>
-                    <ListItemIcon>
-                        <AdminPanelSettings/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Usuarios'} />
-                </ListItem>
+                {
+                    (user?.role === 'admin') && (
+                    <> <Divider />
+                    <ListSubheader>Admin Panel</ListSubheader>
+    
+                    <ListItem button>
+                        <ListItemIcon>
+                            <CategoryOutlined/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Productos'} />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <ConfirmationNumberOutlined/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Ordenes'} />
+                    </ListItem>
+    
+                    <ListItem button>
+                        <ListItemIcon>
+                            <AdminPanelSettings/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Usuarios'} />
+                    </ListItem>
+                    </>)
+                }
+               
             </List>
         </Box>
     </Drawer>
