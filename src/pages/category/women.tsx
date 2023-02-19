@@ -10,7 +10,7 @@ const WomenPage = () => {
   return (
     
   
-    <ShopLayouts title={'Teslo-Shop-Kids'} pageDescription={'Encuentra los mejores productos de Teslo-Shop para niños'}>
+    <ShopLayouts title={'Teslo-Shop-Women'} pageDescription={'Encuentra los mejores productos de Teslo-Shop para niños'}>
       <Typography variant='h1' component='h1' >Mujeres</Typography>
       <Typography variant='h2' sx={ {marginBottom:1 } } >Productos para mujeres</Typography>
       {

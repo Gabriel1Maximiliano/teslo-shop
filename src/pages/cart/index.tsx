@@ -38,7 +38,12 @@ if( !isLoaded || cart.lenght === 0){
                         {/* <OrderSummary /> */}
                             <OrdenSummary />
                         <Box sx={{ mt: 3 }}>
-                            <Button sx={{ backgroundColor:'#274494' }} className='circular-btn' fullWidth>
+                            <Button 
+                            sx={{ backgroundColor:'#274494' }}
+                             className='circular-btn' 
+                             fullWidth
+                             href='/checkout/address'
+                             >
                                 Checkout
                             </Button>
                         </Box>

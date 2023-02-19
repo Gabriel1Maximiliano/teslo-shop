@@ -22,6 +22,9 @@ export const isValidToken = ( token:string ):Promise<string>=>{
 
         throw new Error('There is not a seed of jwt check your environment variables')
     }
+    if( token.length <= 10 ){
+         return Promise.reject('JWT invalid');
+    }
 
     return new Promise( (resolve,reject)=>{
         try {
