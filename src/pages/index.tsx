@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
 
   const { isError,isLoading,products } = useProducts('/products');
-  
+
   
   return (
    <ShopLayouts title={'Teslo-Shop-Home'} pageDescription={'Encuentra los mejores productos de Teslo-Shop'}>

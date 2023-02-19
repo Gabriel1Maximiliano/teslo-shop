@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react"
 import '@/styles/globals.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { AuthProvider  } from 'context';
@@ -9,6 +10,7 @@ import { lightTheme } from '../../themes/light-theme';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
+<SessionProvider>
     <SWRConfig 
     value={{
       
@@ -26,5 +28,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </CartProvider>
       </AuthProvider>
     </SWRConfig>
+    </SessionProvider>    
   )
 }
