@@ -63,29 +63,25 @@ export default NextAuth({
   callbacks: {
 
     async jwt({ token, account, user }) {
-      console.log({ token, account, user })
+      //console.log({ token, account, user })
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
         token.accessToken = account.access_token
         
       }
-       // if ( account ) {
-      //   token.accessToken = account.access_token;
+      
 
-      //   switch( account.type ) {
+         switch( account?.type ) {
 
-      //     case 'oauth': 
-      //       token.user = await dbUsers.oAUthToDbUser( user?.email || '', user?.name || '' );
-      //     break;
+           case 'oauth': 
+             token.user = await dbUsers.oAUthToDbUser( user?.email || '', user?.name || '' );
+           break;
 
-      //     case 'credentials':
-      //       token.user = user;
-      //     break;
-      //   }
+           case 'credentials':
+             token.user = user;
+           break;
+         }
 
-      // }
-
-     // return token;
    
 
       return token

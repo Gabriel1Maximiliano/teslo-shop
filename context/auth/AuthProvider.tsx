@@ -99,7 +99,7 @@ const registerUser = async( name:string,email:string,password:string, ): Promise
 }
 
 const logout =()=>{
-    Cookies.remove('token');
+    //Cookies.remove('token');
     Cookies.remove('cart');
 
       Cookies.remove('lastName') 
@@ -110,8 +110,11 @@ const logout =()=>{
       Cookies.remove('city') 
       Cookies.remove('country') 
       Cookies.remove('phone') 
+   
+      signOut();
 
-    router.reload();
+
+    //router.reload();
 }
 return(
  <AuthContext.Provider value={{

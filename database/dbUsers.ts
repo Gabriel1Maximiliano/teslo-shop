@@ -27,3 +27,34 @@ return {
     name
 }
 }
+
+// this function validate or create an user from OAuth
+
+export const oAUthToDbUser =async(oAuhtEmail:string,oAuthName:string)=>{
+    
+
+    await db.connect();
+
+    const user = await User.findOne({email:oAuhtEmail});
+  
+
+    if(user){
+        await db.disconnect();
+        const  { _id, name,email,role } = user;
+        return { _id, name,email,role };
+    }
+
+    const newUser = new User({email:oAuhtEmail, name:oAuthName,password:'@',role:'client'});
+     
+    await newUser.save();
+    await db.disconnect();
+
+
+ const  { _id, name,email,role } = newUser;
+
+ return { _id, name,email,role };
+
+
+
+
+}
