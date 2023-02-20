@@ -40,6 +40,7 @@ const Cart_Initial_State:CartState={
 
 export const CartProvider=({ children }:any):any =>{
     const [state, dispatch] = useReducer(cartReducer , Cart_Initial_State);
+    const { cart=[] }= state
 
     useEffect(()=>{
   try {
@@ -56,8 +57,8 @@ export const CartProvider=({ children }:any):any =>{
     }, [state!.cart])
 
     useEffect(() => {
-     const numberOfItems= state.cart.reduce( ( prev:number,current: any ) => current.quantity + prev,0 )
-     const subTotal = state.cart.reduce(( prev:number,current: any ) => (current.price * current.quantity)+ prev,0);
+     const numberOfItems= cart.reduce( ( prev:number,current: any ) => current.quantity + prev,0 )
+     const subTotal = cart.reduce(( prev:number,current: any ) => (current.price * current.quantity)+ prev,0);
      const taxRate = Number( process.env.NEXT_PUBLIC_TAX_RATE )
       const orderSummary = {
         numberOfItems,

@@ -10,8 +10,11 @@ import { useRouter } from 'next/router';
 const HomeCartPage = () => {
 const router = useRouter();
 const { isLoaded,cart} = useContext( CartContext );
+console.log({cart})
+console.log({})
 
-useEffect(() => {
+ useEffect(() => {
+    console.log('disparado')
  if( isLoaded && cart.length === 0 ){
     router.replace('/cart/empty');
  }

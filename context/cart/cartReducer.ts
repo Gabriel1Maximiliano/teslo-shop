@@ -23,6 +23,7 @@ export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => 
     case '[Cart]-LoadCart-from-cookies | localStorage':
       return{
         ...state,
+        isLoaded: true,
         cart: [...action.payload]
         
       }

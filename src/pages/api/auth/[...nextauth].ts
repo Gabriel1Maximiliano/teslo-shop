@@ -24,7 +24,7 @@ export default NextAuth({
       password: { label: 'Contraseña:', type: 'password', placeholder: 'Contraseña'  },
       },
       
-      authorize:  async function (credentials: any): Awaitable<User | null | string> | CredentialsProps{
+      authorize:  async function (credentials:any):Promise<any>{
       
 
 
@@ -42,10 +42,10 @@ export default NextAuth({
   ],
 
   // Custom Pages
-  // pages: {
-  //   signIn: '/auth/login',
-  //   newUser: '/auth/register'
-  // },
+  pages: {
+    signIn: '/auth/login',
+    newUser: '/auth/register'
+  },
 
   
   // Callbacks
@@ -53,11 +53,11 @@ export default NextAuth({
     // secret: process.env.JWT_SECRET_SEED, // deprecated
   },
   
-  // session: {
-  //   maxAge: 2592000, /// 30d
-  //   strategy: 'jwt',
-  //   updateAge: 86400, // cada día
-  // },
+  session: {
+    maxAge: 2592000, /// 30d
+    strategy: 'jwt',
+    updateAge: 86400, // cada día
+  },
 
 
   callbacks: {
