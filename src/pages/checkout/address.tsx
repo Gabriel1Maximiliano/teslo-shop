@@ -6,7 +6,7 @@ import { countries } from '../../../utils/countries';
 import { useForm } from "react-hook-form";
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { CartContext } from '../../../context/cart/CartContext';
 
 
@@ -42,10 +42,24 @@ const AdressPage = () => {
 
 const router = useRouter();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
-        defaultValues:getAddressFromCookies()
+    const { register, handleSubmit, watch, formState: { errors },reset } = useForm<FormData>({
+        defaultValues:{
+            firstName: '',
+            lastName: '',
+            address: '',
+            address2: '',
+            zip: '',
+            city: '',
+            country: countries[0].code,
+            phone: '',
+        }
     
     });
+
+useEffect(() => {
+  reset( getAddressFromCookies() );
+}, [reset])
+    
 const onSubmitAdress =(data:FormData)=>{
 updateAddress( data )
 

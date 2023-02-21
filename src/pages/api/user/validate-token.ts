@@ -30,7 +30,7 @@ const  checkJwt = async (req: NextApiRequest, res: NextApiResponse<Data>)=> {
     
     const { token='' } = req.cookies;
 
-    console.log(typeof token)
+    
   let userId =''
   try {
     userId = await jwt.isValidToken(token.toString());

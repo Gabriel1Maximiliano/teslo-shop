@@ -4,22 +4,41 @@ import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from 
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";
-import { useContext } from 'react';
+import { useContext,useEffect } from 'react';
 import { CartContext } from '../../../context/cart/CartContext';
 import { countries } from 'utils';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 
 
 
 const SummaryPage = () => {
+    const router = useRouter();
 
     const { shippingAddress,numberOfItems }=useContext( CartContext );
 
-    if( !shippingAddress ){
-        return <></>
+
+    useEffect(() => {
+        if ( !Cookies.get('firstName') ) {
+            router.push('/checkout/address');
+        }
+    }, [ router ]);
+    
+
+
+    if ( !shippingAddress ) {
+        return <></>;
     }
+
     const { firstName, lastName, address, address2 = '', city, country, phone, zip } = shippingAddress;
-  return (
+
+
+//     // if( !shippingAddress ){
+//     //     return <></>
+//     // }
+   return (
+
     <ShopLayouts title='Resumen de compra' pageDescription={'Resumen de la órden'}>
         <Typography variant='h1' component='h1'>Resumen de la órden</Typography>
 
@@ -72,7 +91,7 @@ const SummaryPage = () => {
         </Grid>
 
 
-    </ShopLayouts>
+//     </ShopLayouts>
   )
 }
 

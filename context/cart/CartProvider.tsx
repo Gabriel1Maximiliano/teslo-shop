@@ -1,7 +1,7 @@
 import {  useEffect, useReducer } from 'react';
 import { CartContext,cartReducer } from './';
 import { ICartProduct } from '../../interfaces/cart';
-import Cookie from 'js-cookie';
+
 import Cookies from 'js-cookie';
 
 
@@ -44,7 +44,7 @@ export const CartProvider=({ children }:any):any =>{
 
     useEffect(()=>{
   try {
-    const CookieProducta = Cookie.get( 'cart') ? JSON.parse( Cookie.get( 'cart' )! ):[];
+    const CookieProducta = Cookies.get( 'cart') ? JSON.parse( Cookies.get( 'cart' )! ):[];
     dispatch( { type:'[Cart]-LoadCart-from-cookies | localStorage',payload:CookieProducta } );
   } catch (error) {
     dispatch( { type:'[Cart]-LoadCart-from-cookies | localStorage',payload:[] } );
@@ -53,7 +53,7 @@ export const CartProvider=({ children }:any):any =>{
     },[])
 
     useEffect(() => {
-   Cookie.set( 'cart', JSON.stringify( state.cart ) )
+   Cookies.set( 'cart', JSON.stringify( state.cart ) )
     }, [state!.cart])
 
     useEffect(() => {
@@ -69,8 +69,12 @@ export const CartProvider=({ children }:any):any =>{
      dispatch( { type:'[Cart]- Update-order-summary',payload:orderSummary } )
       }
     , [state!.cart])
+
+
 useEffect(() => {
-  if( Cookie.get('firstName') ){
+
+
+  if( Cookies.get('firstName') ){
     const shippinAddress ={
 
       firstName:Cookies.get('firstName') || '',
@@ -115,7 +119,7 @@ dispatch({type:'[Cart]- Change-cart-quantity',payload:product})
 }
 
 const removeCartProduct =( product:any )=>{
-  console.log({product})
+
     dispatch({ type:'[Cart]- Remove-product-in-cart',payload:product })
 
 }
