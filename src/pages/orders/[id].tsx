@@ -1,6 +1,6 @@
 
 
-import { Box ,Card, CardContent, Chip, Divider, Grid, Typography } from "@mui/material";
+import { Box ,Card, CardContent, Chip, CircularProgress, Divider, Grid, Typography } from "@mui/material";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";
@@ -12,6 +12,20 @@ import { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 import { dbOrder } from 'database';
 import { IOrder } from 'interfaces';
+import tesloApi from '../../../api/tesloApi';
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+
+export type OrderResponseBody = {
+    id: string;
+    status:
+        | "COMPLETED"
+        | "SAVED"
+        | "APPROVED"
+        | "VOIDED"
+        | "PAYER_ACTION_REQUIRED";
+};
 
 interface Props {
     order:IOrder;
@@ -20,7 +34,31 @@ interface Props {
 
 const OrderPage:NextPage<Props> = (props) => {
 
+const router = useRouter();
 
+const { total } = props.order
+
+const [isPaying, setIsPaying] = useState(false);
+
+const onOrderCompleted = async( details : OrderResponseBody )=>{
+if( details.status !== 'COMPLETED' ){
+  return alert('No hay pago Paypal')
+}
+setIsPaying( true );
+try {
+    const { data } = await tesloApi.post(`/orders/pay`,{
+        transactionId:details.id,
+        orderId:props.order._id!
+    })
+
+    router.reload();
+
+} catch (error) {
+    setIsPaying( false );
+    console.log(error);
+    alert('Error')
+}
+}
  
   return (
     <ShopLayouts title='Resumen de la órden' pageDescription={'Resumen de la órden'}>
@@ -60,15 +98,15 @@ const OrderPage:NextPage<Props> = (props) => {
             <Grid item xs={ 12 } sm={ 5 }>
                 <Card className='summary-card'>
                     <CardContent>
-                        <Typography variant='h2'>Resumen ({ props.order.numberOfItems } { props.order.numberOfItems > 1 ? 'peoductos' : 'producto' })</Typography>
+                        <Typography variant='h2'>Resumen ({ props.order.numberOfItems } { props.order.numberOfItems > 1 ? 'productos' : 'producto' })</Typography>
                         <Divider sx={{ my:1 }} />
 
                             <Box display='flex'  justifyContent='end'>
                                 
                             </Box>
                             <Typography variant='subtitle1' >Dirección de entrega</Typography>
-                            <Typography variant='subtitle1' >{props.order.shippingAddress.firstName} { props.order.shippingAddress.lastName }</Typography>
                             <Typography variant='subtitle1' >{props.order.shippingAddress.address} { props.order.shippingAddress.address2  ? `${ props.order.shippingAddress.address }` :''}</Typography>
+                            <Typography variant='subtitle1' >{props.order.shippingAddress.firstName} { props.order.shippingAddress.lastName }</Typography>
                             <Typography variant='subtitle1' >{props.order.shippingAddress.city}</Typography>
                             <Typography variant='subtitle1' >{props.order.shippingAddress.country}</Typography>
                             <Typography variant='subtitle1' >{props.order.shippingAddress.phone}</Typography>
@@ -82,7 +120,19 @@ const OrderPage:NextPage<Props> = (props) => {
 
                         <Box sx={{ mt: 3 ,diplay:'flex' ,flexDirection:'column'}}  >
                             {/* todo */}
-                          {
+                            
+                            <Box 
+                            display='flex' 
+                            justifyContent='center'
+                            className="fadeIn"
+                            sx={{ display: isPaying ? 'flex' :'none' }}
+                            >
+                            <CircularProgress />
+
+                            </Box>
+                                    
+                            <Box flexDirection='column' sx={{ display: isPaying ? 'none' :'flex',flex:1 }} >
+                            {
                            props.order.isPaid
                             ?(
                                 <Chip 
@@ -93,10 +143,31 @@ const OrderPage:NextPage<Props> = (props) => {
                                 
                                 />
                             ):(
-                                <PayPalButtons />
+                                <PayPalButtons 
+                                createOrder={(data, actions) => {
+                                    return actions.order.create({
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    value: total.toString(),
+                                                },
+                                            },
+                                        ],
+                                    });
+                                }}
+                                onApprove={(data, actions) => {
+                                    return actions.order!.capture().then((details) => {
+                                        onOrderCompleted( details );
+                                        // console.log({details})
+                                        // const name = details.payer.name?.given_name;
+                                        // alert(`Transaction completed by ${name}`);
+                                    });
+                                }}/>
                             )
                           }
                           
+                            </Box>
+                         
                         </Box>
 
                     </CardContent>
