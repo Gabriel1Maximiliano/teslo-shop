@@ -1,6 +1,6 @@
-import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material"
+import  AddCircleOutline  from "@mui/icons-material/AddCircleOutline"
 import { Box, IconButton, Typography } from "@mui/material"
-
+import  RemoveCircleOutline  from "@mui/icons-material/RemoveCircleOutline"
 
 interface Props {
 

@@ -1,18 +1,32 @@
-import { Grid, Typography } from "@mui/material"
-import { useContext } from 'react';
+import  Typography  from "@mui/material/Typography"
+import Grid from "@mui/material/Grid"
+
+import { FC, useContext } from 'react';
 import { currency } from "utils";
 import { CartContext } from '../../context/cart/CartContext';
 
-export const OrdenSummary = () => {
+
+interface Props {
+    orderValues?:{
+        numberOfItems:number;
+        subTotal:number;
+        total:number;
+        tax:number;
+    }
+}
+export const OrdenSummary: FC<Props> = ({ orderValues }) => {
  
 const { tax,subTotal,total,numberOfItems } = useContext( CartContext )
+
+const summaryValues = orderValues ? orderValues : { tax,subTotal,total,numberOfItems }
+
   return (
     <Grid  container >
         <Grid item xs={ 6 }>
             <Typography>No Productos</Typography>
         </Grid>
         <Grid item xs={ 6 }  display='flex'>
-            <Typography>{ numberOfItems } { numberOfItems > 1 ? 'productos': 'producto' } </Typography>
+            <Typography>{ summaryValues.numberOfItems } { summaryValues.numberOfItems > 1 ? 'productos': 'producto' } </Typography>
             
         </Grid>
 
@@ -20,7 +34,7 @@ const { tax,subTotal,total,numberOfItems } = useContext( CartContext )
             <Typography>SubTotal</Typography>
         </Grid>
         <Grid item xs={ 6 }  display='flex'>
-            <Typography>{ currency.format(subTotal) }</Typography>
+            <Typography>{ currency.format(summaryValues.subTotal) }</Typography>
             
         </Grid>
 
@@ -28,7 +42,7 @@ const { tax,subTotal,total,numberOfItems } = useContext( CartContext )
             <Typography>Impuestos{(Number(process.env.NEXT_PUBLIC_TAX_RATE)*100)}%</Typography>
         </Grid>
         <Grid item xs={ 6 }  display='flex'>
-            <Typography>{ currency.format(tax)}</Typography>
+            <Typography>{ currency.format(summaryValues.tax)}</Typography>
             
         </Grid>
 
@@ -36,7 +50,7 @@ const { tax,subTotal,total,numberOfItems } = useContext( CartContext )
             <Typography variant="subtitle1" >Total a pagar</Typography>
         </Grid>
         <Grid item xs={ 6 }  display='flex' sx={{mt:2}}>
-            <Typography>{currency.format(total)}</Typography>
+            <Typography>{currency.format(summaryValues.total)}</Typography>
             
         </Grid>
     </Grid>

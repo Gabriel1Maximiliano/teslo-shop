@@ -1,7 +1,7 @@
 
 
-import { CartState, ShippingAddress } from './CartProvider';
-import { ICartProduct } from 'interfaces';
+import { CartState} from './CartProvider';
+import { ICartProduct, ShippingAddress } from 'interfaces';
 
 type UITypeAtion =
 |{type:'[Cart]-LoadCart-from-cookies | localStorage',payload:ICartProduct[]}
@@ -10,12 +10,14 @@ type UITypeAtion =
 |{type:'[Cart]- Remove-product-in-cart',payload:ICartProduct}
 |{type:'[Cart]-LoadAddress-from-Cookies',payload:ShippingAddress}
 |{type:'[Cart]-Update Address',payload:ShippingAddress}
+|{type:'[Cart]-Order-Complete',payload:ShippingAddress}
 |{type:'[Cart]- Update-order-summary',payload:{
   numberOfItems: any;
   subTotal: any;
   tax: number;
   total: any;
 }}
+|{type:'[Cart]-Order-Complete'}
 
 export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => {
   
@@ -63,6 +65,15 @@ export const cartReducer = ( state:CartState,action: UITypeAtion ):CartState => 
        
         
       }
+      case '[Cart]-Order-Complete':
+        return {
+          ...state,
+         cart:[],
+         numberOfItems:0,
+         subTotal:0,
+         tax:0,
+         total:0 
+        }
      
     default:
         return state;

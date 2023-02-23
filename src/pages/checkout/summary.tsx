@@ -1,10 +1,10 @@
 import NextLink from 'next/link';
 
-import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from "@mui/material";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";
-import { useContext,useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../../../context/cart/CartContext';
 import { countries } from 'utils';
 import Cookies from 'js-cookie';
@@ -16,8 +16,9 @@ import { useRouter } from 'next/router';
 const SummaryPage = () => {
     const router = useRouter();
 
-    const { shippingAddress,numberOfItems }=useContext( CartContext );
-
+    const { shippingAddress,numberOfItems,createOrder }=useContext( CartContext );
+const [isPosting, setIsPosting] = useState( false );
+const [errorMessage, setErrorMesagge] = useState('');
 
     useEffect(() => {
         if ( !Cookies.get('firstName') ) {
@@ -28,15 +29,30 @@ const SummaryPage = () => {
 
 
     if ( !shippingAddress ) {
-        return <></>;
+        return <>hola</>;
     }
 
     const { firstName, lastName, address, address2 = '', city, country, phone, zip } = shippingAddress;
 
 
-//     // if( !shippingAddress ){
-//     //     return <></>
-//     // }
+const onCreateOrder = async()=>{
+    setIsPosting( true );
+
+
+    const data = await createOrder();// todo:depende de lo que hgaag
+    
+
+    if( data?.hasError ){
+
+        setIsPosting(false);
+        setErrorMesagge( data.message );
+        return;
+    }
+
+    router.replace(`/orders/${ data?.message }`)
+
+   
+}
    return (
 
     <ShopLayouts title='Resumen de compra' pageDescription={'Resumen de la órden'}>
@@ -79,10 +95,22 @@ const SummaryPage = () => {
 
                             <OrdenSummary />
 
-                        <Box sx={{ mt: 3 }}>
-                            <Button sx={{ backgroundColor:'#274494' }} className='circular-btn' fullWidth>
+                        <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
+                            <Button 
+                            sx={{ backgroundColor:'#274494' }}
+                             className='circular-btn' 
+                             fullWidth
+                             onClick={ onCreateOrder }
+                             disabled={ isPosting }
+                             >
                                 Confirmar Órden
                             </Button>
+
+                        <Chip
+                        color='error'
+                        label={ errorMessage }
+                        sx={ { display: errorMessage ? 'flex' :'none',mt:1 }}
+                        />
                         </Box>
 
                     </CardContent>
@@ -91,7 +119,7 @@ const SummaryPage = () => {
         </Grid>
 
 
-//     </ShopLayouts>
+     </ShopLayouts>
   )
 }
 

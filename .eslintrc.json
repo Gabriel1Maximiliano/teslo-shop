@@ -6,3 +6,14 @@
     "react-hooks/rules-of-hooks":"off"
   }
 }
+// {
+//   "extends": "next",
+//   "rules": {
+//     "no-restricted-imports": [
+//       "error",
+//       {
+//         "patterns": ["@mui/*/*/*"]
+//       }
+//     ]
+//   }
+// }

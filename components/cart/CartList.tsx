@@ -8,6 +8,7 @@ import { initialData } from '../../database/seedData';
 import { ItemCouter } from '../ui';
 import { ICartProduct } from 'interfaces';
 import { CartContext } from 'context/cart';
+import { IOrderItem } from '../../interfaces/Order';
 
 const productsInCart = [
     initialData.products[0],
@@ -17,9 +18,11 @@ const productsInCart = [
 
 interface Props {
     editable?: boolean;
+    products?:IOrderItem[]
+    
 }
 
-export const CartList: FC<Props> = ({ editable = false }) => {
+export const CartList: FC<Props> = ({ editable = false, products}) => {
 
      const { cart, updateCartQuantity,removeCartProduct} = useContext(CartContext);
    
@@ -28,10 +31,15 @@ export const CartList: FC<Props> = ({ editable = false }) => {
          product.quantity = newQuantityValue;
          updateCartQuantity( product );
      }
+
+    
+    const productsToShow = products ? products : cart
+    
+
   return (
     <>
         {
-            cart.map( (product:ICartProduct) => (
+            productsToShow.map( (product:ICartProduct) => (
                 <Grid container spacing={2} key={ product.slug } sx={{ mb:1 }}>
                     <Grid item xs={3}>
                         {/* TODO: llevar a la página del producto */}

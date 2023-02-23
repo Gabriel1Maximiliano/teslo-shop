@@ -1,10 +1,16 @@
-import { ClearAllOutlined, ClearOutlined, SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
+import  ClearAllOutlined from "@mui/icons-material/ClearAllOutlined";
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from "@mui/material"
 import NextLink from 'next/link';
 import { useRouter } from "next/router";
 import { UIContext } from '../../context/ui/UIContext';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../context/cart/CartContext';
+
+import  ClearOutlined from "@mui/icons-material/ClearOutlined";
+import  SearchOutlined from "@mui/icons-material/SearchOutlined";
+import  ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+
+
 
 
 

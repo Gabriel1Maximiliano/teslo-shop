@@ -3,6 +3,10 @@ import { CartContext,cartReducer } from './';
 import { ICartProduct } from '../../interfaces/cart';
 
 import Cookies from 'js-cookie';
+import { ShippingAddress } from 'interfaces';
+import { tesloApi } from 'api';
+import axios from 'axios';
+
 
 
 
@@ -17,16 +21,7 @@ export interface CartState {
     shippingAddress?:ShippingAddress;
 }
 
-export interface ShippingAddress {
-  firstName:string;
-  lastName :string;
-  address  :string;
-  address2? :string;
-  zip      :string;
-  city     :string;
-  country  :string;
-  phone    :string;
-}
+
 
 const Cart_Initial_State:CartState={
   isLoaded:false,
@@ -64,7 +59,7 @@ export const CartProvider=({ children }:any):any =>{
         numberOfItems,
         subTotal,
         tax: subTotal *taxRate,
-        total: subTotal + ( taxRate +1 ) 
+        total: subTotal * ( taxRate +1 ) 
       }
      dispatch( { type:'[Cart]- Update-order-summary',payload:orderSummary } )
       }
@@ -137,6 +132,58 @@ const updateAddress =(address:ShippingAddress)=>{
     
 dispatch({type:'[Cart]-Update Address',payload:address})
 }
+
+const createOrder= async ()=>{
+
+  if( !state.shippingAddress ){
+    throw new Error('There is no delivery direction')
+  }
+
+  const body: any={
+
+    orderItems:state.cart.map(( p )=>({
+         ...p,
+         size:p.size!
+    })),
+    shippingAddress:state.shippingAddress,
+    numberOfItems:state.numberOfItems,
+    subTotal:state.subTotal,
+    tax:state.tax,
+    total:state.total,
+    isPaid:false
+
+  }
+
+
+  try{
+
+    const {data} = await tesloApi.post('/orders',body)
+//TODO vaciar carro limpair sstate
+     dispatch({ type:'[Cart]-Order-Complete' });
+
+return {
+  hasError: false,
+  message: data._id
+}
+
+  }catch(error){
+if( axios.isAxiosError(error) ){
+  return {
+    hasError: true,
+    message: error.response?.data.message
+   }
+  }
+
+  return {
+    hasError:true,
+    message:'Uncontrolled error, talk to admin'
+  }
+}
+
+  
+}
+  
+
 return(
  <CartContext.Provider value={{
     ...state,
@@ -146,9 +193,14 @@ return(
     addProductCart,
     updateCartQuantity,
     removeCartProduct,
-    updateAddress
+    updateAddress,
+
+    //Oreders
+    createOrder
     }} >
     { children }
  </CartContext.Provider>
 )
  }
+
+

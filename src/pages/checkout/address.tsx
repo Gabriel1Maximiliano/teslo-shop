@@ -154,7 +154,7 @@ updateAddress( data )
             select
                 variant="filled"
                 label="País"
-                defaultValue={Cookies.get('country') || countries[0].code}
+                defaultValue={countries[0].code}
                 {...register('country', {required:'The country is required',
 
             })}
@@ -202,34 +202,34 @@ updateAddress( data )
 
 
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+// export const getServerSideProps: GetServerSideProps = async ({req}) => {
     
-    const { token='' } = req.cookies;
-  let userId ='';
-  let isValidToken =false;
+//     const { token='' } = req.cookies;
+//   let userId ='';
+//   let isValidToken =false;
 
-  try {
+//   try {
 
-    userId = await jwt.isValidToken( token );
-    isValidToken=true;
-  } catch (error) {
-    isValidToken = false;
-  }
+//     userId = await jwt.isValidToken( token );
+//     isValidToken=true;
+//   } catch (error) {
+//     isValidToken = false;
+//   }
 
-  if(!isValidToken){
-   return {
-    redirect:{
-        destination:'/auth/login?p=/checkout/address',
-        permanent:false,
-    }
-   }
-  }
-    return {
-        props: {
+//   if(!isValidToken){
+//    return {
+//     redirect:{
+//         destination:'/auth/login?p=/checkout/address',
+//         permanent:false,
+//     }
+//    }
+//   }
+//     return {
+//         props: {
             
-        }
-    }
-}
+//         }
+//     }
+// }
 export default AdressPage;
 
 // import { NextFetchEvent, NextRequest } from "next/server";

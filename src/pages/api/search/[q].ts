@@ -4,11 +4,12 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { IProduct } from '../../../../interfaces/products';
 
+
 type Data = 
 |{message: string}
 |IProduct[]
 
-export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
 
     switch (req.method) {
