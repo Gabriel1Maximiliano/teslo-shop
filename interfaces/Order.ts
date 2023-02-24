@@ -4,6 +4,8 @@ import { IUser } from './user';
 
 
 export interface IOrder {
+    createdAt?: any;
+    updatedAt?:any;
 
     _id?           :string;
     user?          :IUser | string;
@@ -20,6 +22,8 @@ export interface IOrder {
     paidAt         :string;
 
     transactionId  :string;
+
+    
 }
 
 export interface IOrderItem{

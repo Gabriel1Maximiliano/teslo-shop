@@ -69,7 +69,7 @@ async function payOrder(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     const { data } = await axios.get<IPayPal.PayPalOrderStatusResponse>(`${ process.env.PAYPAL_ORDERS_URL }/${ transactionId }`,{
         headers:{
-            'Authorization': `Bearer A21AAISt5E7g-DHWBuuy98-SMcahHmfB72DXfZLAylb1zQGrvoNTdar8XAJSQFyZQFcyKAZLukqs8iZXkwuasRoI8dd5FIwrg`, 
+            'Authorization': `Bearer ${ paypalBearerToken }`
         
         }
     });

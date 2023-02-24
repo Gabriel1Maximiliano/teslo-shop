@@ -33,7 +33,7 @@ export const AdminLayout = ({ children,title,subtitle,icon  }:Props) => {
             <Box display='flex' flexDirection='column'>
                 <Typography variant='h1' component='h1' >
                     { icon }
-                     { title }
+                    {''} { title }
                 </Typography>
                 <Typography variant='h2' sx={{ mb:1 }}>{subtitle}</Typography>
             </Box>

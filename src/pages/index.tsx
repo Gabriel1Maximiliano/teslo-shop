@@ -11,7 +11,7 @@ import { useProducts } from 'hooks'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  console.log('dat'+process.env.NEXT_AUHT_PAYPAL_CLIENT_ID)
+ 
 
   const { isError,isLoading,products } = useProducts('/products');
 

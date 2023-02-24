@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 const mongoConnection = {
     isConnected: 0
 }
-
+mongoose.set("strictQuery", false);
 export const connect = async() => {
 
     if ( mongoConnection.isConnected ) {
