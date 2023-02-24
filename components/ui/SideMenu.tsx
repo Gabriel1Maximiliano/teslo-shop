@@ -16,6 +16,7 @@ import { useContext, useState } from 'react';
 import { UIContext } from '../../context/ui/UIContext';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../context/auth/AuthContext';
+import DashboardOutlined from "@mui/icons-material/DashboardOutlined"
 
 
 export const SideMenu = () => {
@@ -145,29 +146,44 @@ const navigateTo = (url:string) =>{
 
                 {
                     (user?.role === 'admin') && (
-                    <> <Divider />
-                    <ListSubheader>Admin Panel</ListSubheader>
-    
-                    <ListItem button>
-                        <ListItemIcon>
-                            <CategoryOutlined/>
-                        </ListItemIcon>
-                        <ListItemText primary={'Productos'} />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <ConfirmationNumberOutlined/>
-                        </ListItemIcon>
-                        <ListItemText primary={'Ordenes'} />
-                    </ListItem>
-    
-                    <ListItem button>
-                        <ListItemIcon>
-                            <AdminPanelSettings/>
-                        </ListItemIcon>
-                        <ListItemText primary={'Usuarios'} />
-                    </ListItem>
-                    </>)
+                        <>
+                        <Divider />
+                        <ListSubheader>Admin Panel</ListSubheader>
+
+                        <ListItem 
+                            button
+                            onClick={ () => navigateTo('/admin/') }>
+                            <ListItemIcon>
+                                <DashboardOutlined />
+                            </ListItemIcon>
+                            <ListItemText primary={'Dashboard'} />
+                        </ListItem>
+
+                        <ListItem button>
+                            <ListItemIcon>
+                                <CategoryOutlined/>
+                            </ListItemIcon>
+                            <ListItemText primary={'Productos'} />
+                        </ListItem>
+                        <ListItem 
+                            button
+                            onClick={ () => navigateTo('/admin/orders') }>
+                            <ListItemIcon>
+                                <ConfirmationNumberOutlined/>
+                            </ListItemIcon>
+                            <ListItemText primary={'Ordenes'} />
+                        </ListItem>
+
+                        <ListItem 
+                            button
+                            onClick={ () => navigateTo('/admin/users') }>
+                            <ListItemIcon>
+                                <AdminPanelSettings/>
+                            </ListItemIcon>
+                            <ListItemText primary={'Usuarios'} />
+                        </ListItem>                        
+                    </>
+          )
                 }
                
             </List>
