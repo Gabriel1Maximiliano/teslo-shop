@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { tesloApi } from 'api';
+import { Product } from 'models';
+import { useRouter } from 'next/router';
 
 
 const validTypes  = ['shirts','pants','hoodies','hats']
@@ -38,8 +40,10 @@ interface Props {
 
 const ProductAdminPage = ({ product }:Props) => {
   
+    const router = useRouter();
 
     const [ newTagValue, setnewTagValue ] = useState('');
+
     const [ isSaving, setIsSaving ] = useState(false);
 
     const { register,handleSubmit,formState:{ errors },getValues,setValue,watch } = useForm({
@@ -94,13 +98,14 @@ setIsSaving(true);
 try{
  const { data } = await tesloApi({
     url:'/admin/products',
-    method:'PUT',
+    method:form._id ?'PUT' : 'POST',
     data: form
  });
  console.log({data})
 
  if( !form._id ){
  //TODO recargar navegador
+ router.replace(`/admin/products/${ form.slug }`);
  }else{
     setIsSaving(false);
  }
@@ -264,7 +269,7 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                     </Grid>
 
                     {/* Tags e imagenes */}
-                    <Grid item xs={12} sm={ 6 } >
+                    <Grid item xs={12} sm={ 6 }>
                         <TextField
                             label="Slug - URL"
                             variant="filled"
@@ -374,9 +379,20 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     
     const { slug = ''} = query;
-    
-    const product = await dbProducts.getProductBySlug(slug.toString());
 
+    let product :IProduct | null;
+
+    if( slug === 'new' ){
+  const temporalProduct = JSON.parse( JSON.stringify( new Product() ) )
+
+  delete temporalProduct._id;
+  temporalProduct.images = [ 'img1.jpg','img2.jpg' ];
+  product = temporalProduct;
+    }else{
+        product =await dbProducts.getProductBySlug(slug.toString());
+
+    }
+    
     if ( !product ) {
         return {
             redirect: {

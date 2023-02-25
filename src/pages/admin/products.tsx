@@ -10,6 +10,9 @@ import { IProduct } from '../../../interfaces/products';
 import  CategoryOutlined  from '@mui/icons-material/CategoryOutlined';
 import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import  AddOutlined  from '@mui/icons-material/AddOutlined';
 
 
 const columns:GridColDef[] = [
@@ -59,6 +62,8 @@ const columns:GridColDef[] = [
 
 const ProductsPage = () => {
 
+
+
     const { data, error } = useSWR<IProduct[]>('/api/admin/products');
 
     if ( !data && !error ) return (<></>);
@@ -76,7 +81,21 @@ const ProductsPage = () => {
     }));
 
   return (
-    <AdminLayout title={`Productos (${ data?.length } )`} subtitle={'Mantenimiento de productos'} icon={<CategoryOutlined />} >
+    <AdminLayout 
+    title={`Productos (${ data?.length } )`} 
+    subtitle={'Mantenimiento de productos'} 
+    icon={<CategoryOutlined />} 
+    >
+      <Box display='flex' justifyContent='end' sx={{ mb:2  }} >
+        <Button 
+        startIcon={ <AddOutlined /> }
+        color='secondary'
+        href='/admin/products/new'
+        sx={{backgroundColor:'#274494'}}
+        >
+          Crear Producto
+        </Button>
+      </Box>
          <Grid container className='fadeIn'>
             <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                 <DataGrid 
