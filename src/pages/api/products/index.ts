@@ -24,7 +24,7 @@ export default function handler (req: NextApiRequest, res: NextApiResponse<Data>
 const  getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>)=> {
 
     const { gender='all'  } = req.query;
-    console.log({gender})
+   
     
     let condition = {};
 

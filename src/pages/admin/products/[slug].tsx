@@ -8,7 +8,7 @@ import { AdminLayout } from 'components/layouts';
 import { dbProducts } from 'database';
 import { IProduct, ITypes } from 'interfaces';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { tesloApi } from 'api';
 import { Product } from 'models';
@@ -42,6 +42,8 @@ const ProductAdminPage = ({ product }:Props) => {
   
     const router = useRouter();
 
+    const fileInputRef = useRef<HTMLInputElement | null | any>();
+
     const [ newTagValue, setnewTagValue ] = useState('');
 
     const [ isSaving, setIsSaving ] = useState(false);
@@ -50,6 +52,30 @@ const ProductAdminPage = ({ product }:Props) => {
         defaultValues:product,
     });
 
+const onDeleteImage =(image:string)=>{
+    setValue('images',getValues('images').filter(img=> img !== image),{shouldValidate:true})
+}    
+const onFileSelected =async({ target }:any)=>{
+    if( !target.files || target.files.length === 0 ){
+    return;
+    }
+
+
+    try {
+    //console.log(file)
+    for (const file of target.files) {
+        const formData = new FormData();
+        formData.append('file',file);
+
+        const {data} = await tesloApi.post('/admin/upload',formData);
+        console.log( data.message )
+        setValue('images',[...getValues('images'), data.message],{shouldValidate:true})
+    }
+} catch (error) {
+    
+}
+console.log(target.files)
+}
 const onNewTag =()=>{
    const newTag = newTagValue.trim().toLowerCase();
 
@@ -329,9 +355,18 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                                 fullWidth
                                 startIcon={ <UploadOutlined /> }
                                 sx={{ mb: 3,backgroundColor:'#274494'  }}
+                                onClick={ ()=>fileInputRef.current?.click()  }
                             >
                                 Cargar imagen
                             </Button>
+                            <input 
+                            ref={ fileInputRef   }
+                            type='file'
+                            multiple
+                            accept='image/png, image/gif, image/jpeg'
+                            style={{display:'none'}}
+                            onChange={ onFileSelected }
+                            />
 
                             <Chip 
                                 label="Es necesario al 2 imagenes"
@@ -342,7 +377,7 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
 
                             <Grid container spacing={2} >
                                 {
-                                    product.images.map( (img:any) => (
+                                    getValues('images').map( (img:any) => (
                                         <Grid item xs={4} sm={3} key={img} >
                                             <Card >
                                                 <CardMedia  
@@ -352,7 +387,11 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                                                     alt={ img }
                                                 />
                                                 <CardActions>
-                                                    <Button fullWidth color="error" sx={{backgroundColor:'#d32f2f'}}  >
+                                                    <Button 
+                                                    fullWidth color="error" 
+                                                    sx={{backgroundColor:'#d32f2f'}}
+                                                    onClick={ ()=>onDeleteImage(img) }
+                                                    >
                                                         Borrar
                                                     </Button>
                                                 </CardActions>

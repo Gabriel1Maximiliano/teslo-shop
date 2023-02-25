@@ -4,6 +4,11 @@ import { Product } from 'models';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IProduct } from '../../../../interfaces/products';
 
+import {v2 as cloudinary} from 'cloudinary';
+
+cloudinary.config( process.env.CLOUDINARY_URL || '');
+
+
 type Data = 
 |IProduct[]
 |{ message: string}
@@ -66,6 +71,17 @@ try {
 
     //TODO elimimar images Cloudinary
 
+    product.images.forEach(async(image)=>{
+        if(!images.includes(image)){
+            //borrar de cloud
+            const [fileId,extension] = image.substring( image.lastIndexOf('/') +1).split('.');
+            console.log({fileId,extension})
+            await cloudinary.uploader.destroy( fileId )
+
+
+        }
+    })
+
     await product.updateOne( req.body );
 
     await db.disconnect();
@@ -116,6 +132,6 @@ async function createProduct(req: NextApiRequest, res: NextApiResponse<Data>) {
   return res.status(200).json({ message: 'To create a product at least 2 images' });
 
     }
-    return res.status(200).json({ message: 'Check logs server' })
+    
 }
 

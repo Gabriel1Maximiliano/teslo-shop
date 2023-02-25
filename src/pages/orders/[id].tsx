@@ -7,7 +7,7 @@ import { ShopLayouts } from "components/layouts";
 import  CreditCardOffOutlined from '@mui/icons-material/CreditCardOffOutlined';
 import  CreditScoreOutlined  from '@mui/icons-material/CreditScoreOutlined';
 
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 import { dbOrder } from 'database';

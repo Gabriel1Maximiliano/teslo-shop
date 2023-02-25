@@ -54,5 +54,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         notPaidOrders: numberOfOrders - paidOrders
     })
 
-    //return res.json({message:'soy dash'})
+   
 }
