@@ -9,6 +9,7 @@ import { dbProducts } from 'database';
 import { IProduct, ITypes } from 'interfaces';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 
 const validTypes  = ['shirts','pants','hoodies','hats']
@@ -35,18 +36,36 @@ interface Props {
 }
 
 const ProductAdminPage = ({ product }:Props) => {
-    const prevSizes: never[] = []
+  
+
+    const [ newTagValue, setnewTagValue ] = useState('');
+
     const { register,handleSubmit,formState:{ errors },getValues,setValue,watch } = useForm({
         defaultValues:product,
     });
 
-    const onDeleteTag = ( tag: string ) => {
-        
+const onNewTag =()=>{
+   const newTag = newTagValue.trim().toLowerCase();
+
+   setnewTagValue('');
+   const currentTags = getValues('tags');
+
+   if( currentTags.includes(newTag) ){
+        return;
+   }
+
+   currentTags.push(newTag);
     }
 
-    useEffect(() => {
+const onDeleteTag = ( tag: string ) => {
+     const updatedTags = getValues('tags').filter(t => t !== tag);
+     
+     setValue('tags',updatedTags, { shouldValidate:true })
+}
 
-    const suscription = watch(( value,{name,type} )=>{// ojo esto genera un observable use clean function
+useEffect(() => {
+
+const suscription = watch(( value,{name,type} )=>{// ojo esto genera un observable use clean function
 
 if( name === 'title' ){
  const newSuggestedSlug = value.title?.trim()
@@ -56,10 +75,10 @@ if( name === 'title' ){
 
                                       setValue('slug',newSuggestedSlug);
 }
-        })
+})
     
       return ()=>suscription.unsubscribe();
-    }, [watch,setValue])
+}, [watch,setValue])
     
 
     const onSubmitForm = (form:FormData)=>{
@@ -238,6 +257,10 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                             fullWidth 
                             sx={{ mb: 1 }}
                             helperText="Presiona [spacebar] para agregar"
+
+                            value={ newTagValue }
+                            onChange={({ target })=> setnewTagValue( target.value )}
+                            onKeyUp={({code}) => code === 'Space' ? onNewTag(): undefined}
                         />
                         
                         <Box sx={{
@@ -249,14 +272,14 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                         }}
                         component="ul">
                             {
-                                product.tags.map((tag:any) => {
+                                 getValues('tags').map((tag:any) => {
 
                                 return (
                                     <Chip
                                         key={tag}
                                         label={tag}
                                         onDelete={ () => onDeleteTag(tag)}
-                                        color="primary"
+                                        color='error'
                                         size='small'
                                         sx={{ ml: 1, mt: 1}}
                                     />
@@ -296,7 +319,7 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                                                     alt={ img }
                                                 />
                                                 <CardActions>
-                                                    <Button fullWidth color="error" sx={{backgroundColor:'red'}} >
+                                                    <Button fullWidth color="error" sx={{backgroundColor:'#d32f2f'}}  >
                                                         Borrar
                                                     </Button>
                                                 </CardActions>
