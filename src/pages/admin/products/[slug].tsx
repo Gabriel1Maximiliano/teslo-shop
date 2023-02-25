@@ -8,6 +8,7 @@ import { AdminLayout } from 'components/layouts';
 import { dbProducts } from 'database';
 import { IProduct, ITypes } from 'interfaces';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 
 const validTypes  = ['shirts','pants','hoodies','hats']
@@ -35,13 +36,31 @@ interface Props {
 
 const ProductAdminPage = ({ product }:Props) => {
     const prevSizes: never[] = []
-    const { register,handleSubmit,formState:{ errors },getValues,setValue } = useForm({
+    const { register,handleSubmit,formState:{ errors },getValues,setValue,watch } = useForm({
         defaultValues:product,
     });
 
     const onDeleteTag = ( tag: string ) => {
         
     }
+
+    useEffect(() => {
+
+    const suscription = watch(( value,{name,type} )=>{// ojo esto genera un observable use clean function
+
+if( name === 'title' ){
+ const newSuggestedSlug = value.title?.trim()
+                                      .replaceAll(' ', '_')
+                                      .replaceAll("'", '')
+                                      .toLocaleLowerCase() || '';
+
+                                      setValue('slug',newSuggestedSlug);
+}
+        })
+    
+      return ()=>suscription.unsubscribe();
+    }, [watch,setValue])
+    
 
     const onSubmitForm = (form:FormData)=>{
   console.log({form})
