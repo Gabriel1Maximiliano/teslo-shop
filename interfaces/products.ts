@@ -8,12 +8,12 @@ export interface IProduct {
     slug: string;
     tags: string[];
     title: string;
-    type: ITypes;
-    gender: 'men'|'women'|'kid'|'unisex'
+    type: ITypes ;
+    gender: 'men'|'women'|'kid'|'unisex' | string
 
     createdAt:String;
     updatedAt:String;
 }
 
-export type ISizes = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
-export type ITypes = 'shirts'|'pants'|'hoodies'|'hats';
+export type ISizes = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL'|string;
+export type ITypes = 'shirts'|'pants'|'hoodies'|'hats'|string;

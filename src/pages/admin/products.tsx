@@ -1,4 +1,4 @@
-
+import NextLink from 'next/link';
 import { AdminLayout } from '../../../components/layouts/AdminLayout';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
@@ -9,6 +9,7 @@ import React from 'react';
 import { IProduct } from '../../../interfaces/products';
 import  CategoryOutlined  from '@mui/icons-material/CategoryOutlined';
 import CardMedia from '@mui/material/CardMedia';
+import Link from '@mui/material/Link';
 
 
 const columns:GridColDef[] = [
@@ -30,7 +31,22 @@ const columns:GridColDef[] = [
         )
       }
     },
-    { field: 'title', headerName: 'Title', width: 250 },
+    { 
+      field: 'title',
+       headerName: 'Title',
+        width: 250,
+        renderCell: ( { row } ) => {
+          return(
+            <NextLink href={`/admin/products/${ row.slug }`} passHref legacyBehavior>
+              <Link
+              underline='always'
+              >
+              { row.title }
+              </Link>
+            </NextLink>
+          ) 
+        }
+       },
     { field: 'gender', headerName: 'Género'},
     { field: 'type', headerName: 'Tipo'},
     { field: 'inStock', headerName: 'Inventario'},
@@ -60,7 +76,7 @@ const ProductsPage = () => {
     }));
 
   return (
-    <AdminLayout title={`Productos (${ data?.length } )`} subtitle={'Manteimiento de productos'} icon={<CategoryOutlined />} >
+    <AdminLayout title={`Productos (${ data?.length } )`} subtitle={'Mantenimiento de productos'} icon={<CategoryOutlined />} >
          <Grid container className='fadeIn'>
             <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                 <DataGrid 

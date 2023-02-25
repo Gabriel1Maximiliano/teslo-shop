@@ -6,35 +6,69 @@ import { DriveFileRenameOutline, SaveOutlined, UploadOutlined } from '@mui/icons
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { AdminLayout } from 'components/layouts';
 import { dbProducts } from 'database';
-import { IProduct } from 'interfaces';
+import { IProduct, ITypes } from 'interfaces';
+import { useForm } from 'react-hook-form';
 
 
 const validTypes  = ['shirts','pants','hoodies','hats']
 const validGender = ['men','women','kid','unisex']
 const validSizes = ['XS','S','M','L','XL','XXL','XXXL']
 
+interface FormData {
+    _id?       :string;
+    description: string;
+    images     : string[];
+    inStock    : number;
+    price      : number;
+    sizes      : any;
+    slug       : string;
+    tags       : string[];
+    title      : string;
+    type       : any;
+    gender     : 'men'|'women'|'kid'|'unisex'|string;
+} 
+
+
 interface Props {
     product: IProduct;
 }
 
 const ProductAdminPage = ({ product }:Props) => {
+    const prevSizes: never[] = []
+    const { register,handleSubmit,formState:{ errors },getValues,setValue } = useForm({
+        defaultValues:product,
+    });
 
     const onDeleteTag = ( tag: string ) => {
-
+        
     }
 
+    const onSubmitForm = (form:FormData)=>{
+  console.log({form})
+    }
+const onChangeSize = ( size:string )=>{
+
+const currentSizes= getValues( 'sizes' );
+  
+if( currentSizes.includes( size ) ){
+ return setValue('sizes',currentSizes.filter( s=> s !== size ) ,{shouldValidate:true});
+
+}
+
+setValue('sizes',[...currentSizes,size],{shouldValidate:true})
+}
     return (
         <AdminLayout 
             title={'Producto'} 
             subtitle={`Editando: ${ product.title }`}
             icon={ <DriveFileRenameOutline /> }
         >
-            <form>
+            <form onSubmit={handleSubmit(onSubmitForm)} >
                 <Box display='flex' justifyContent='end' sx={{ mb: 1 }}>
                     <Button 
                         color="secondary"
-                        startIcon={ <SaveOutlined /> }
-                        sx={{ width: '150px' }}
+                        startIcon={ <SaveOutlined /> }  
+                        sx={{ width: '150px',backgroundColor:'#274494'  }}
                         type="submit"
                         >
                         Guardar
@@ -50,12 +84,12 @@ const ProductAdminPage = ({ product }:Props) => {
                             variant="filled"
                             fullWidth 
                             sx={{ mb: 1 }}
-                            // { ...register('name', {
-                            //     required: 'Este campo es requerido',
-                            //     minLength: { value: 2, message: 'Mínimo 2 caracteres' }
-                            // })}
-                            // error={ !!errors.name }
-                            // helperText={ errors.name?.message }
+                            { ...register('title', {
+                                required: 'Este campo es requerido',
+                                minLength: { value: 2, message: 'Mínimo 2 caracteres' }
+                            })}
+                            error={ !!errors.title }
+                            helperText={ errors.title?.message }
                         />
 
                         <TextField
@@ -64,6 +98,12 @@ const ProductAdminPage = ({ product }:Props) => {
                             fullWidth 
                             multiline
                             sx={{ mb: 1 }}
+                            { ...register('description', {
+                                required: 'Este campo es requerido',
+                                
+                            })}
+                            error={ !!errors.description }
+                            helperText={ errors.description?.message }
                         />
 
                         <TextField
@@ -72,6 +112,13 @@ const ProductAdminPage = ({ product }:Props) => {
                             variant="filled"
                             fullWidth 
                             sx={{ mb: 1 }}
+                            { ...register('inStock', {
+                                required: 'Este campo es requerido',
+                                min:{value:0,message:'Mínimo valor cero'}
+                                
+                            })}
+                            error={ !!errors.inStock }
+                            helperText={ errors.inStock?.message }
                         />
                         
                         <TextField
@@ -80,6 +127,13 @@ const ProductAdminPage = ({ product }:Props) => {
                             variant="filled"
                             fullWidth 
                             sx={{ mb: 1 }}
+                            { ...register('price', {
+                                required: 'Este campo es requerido',
+                                min:{value:0,message:'Mínimo valor cero'}
+                                
+                            })}
+                            error={ !!errors.price }
+                            helperText={ errors.price?.message }
                         />
 
                         <Divider sx={{ my: 1 }} />
@@ -88,8 +142,8 @@ const ProductAdminPage = ({ product }:Props) => {
                             <FormLabel>Tipo</FormLabel>
                             <RadioGroup
                                 row
-                                // value={ status }
-                                // onChange={ onStatusChanged }
+                                value={ getValues('type') }
+                                 onChange={ ({target} )=>setValue('type',target.value,{shouldValidate:true}) }
                             >
                                 {
                                     validTypes.map( option => (
@@ -108,6 +162,8 @@ const ProductAdminPage = ({ product }:Props) => {
                             <FormLabel>Género</FormLabel>
                             <RadioGroup
                                 row
+                                value={ getValues('gender') }
+                                onChange={ ({target} )=>setValue('gender',target.value,{shouldValidate:true})}
                                 // value={ status }
                                 // onChange={ onStatusChanged }
                             >
@@ -124,24 +180,37 @@ const ProductAdminPage = ({ product }:Props) => {
                             </RadioGroup>
                         </FormControl>
 
-                        <FormGroup>
+                    {/* <FormGroup> */}
                             <FormLabel>Tallas</FormLabel>
+                          
                             {
-                                validSizes.map(size => (
-                                    <FormControlLabel key={size} control={<Checkbox />} label={ size } />
+                                validSizes.map((size,index) => (
+                                    <FormControlLabel 
+                                    key={size} 
+                                    control={<Checkbox checked={getValues('sizes').includes(size)}/>} 
+                                    label={ size } 
+                                    onChange={ () => onChangeSize( size ) }
+                                    />
                                 ))
                             }
-                        </FormGroup>
+                        {/* </FormGroup> */}
 
                     </Grid>
 
                     {/* Tags e imagenes */}
-                    <Grid item xs={12} sm={ 6 }>
+                    <Grid item xs={12} sm={ 6 } >
                         <TextField
                             label="Slug - URL"
                             variant="filled"
                             fullWidth
-                            sx={{ mb: 1 }}
+                            sx={{ mb: 1 }} 
+                             { ...register('slug', {
+                                required: 'Este campo es requerido',
+                               validate: (val)=> val.trim().includes(' ') ? 'No puede tener espacios vacíos':undefined 
+                                
+                            })}
+                            error={ !!errors.slug }
+                            helperText={ errors.slug?.message }
                         />
 
                         <TextField
@@ -184,7 +253,7 @@ const ProductAdminPage = ({ product }:Props) => {
                                 color="secondary"
                                 fullWidth
                                 startIcon={ <UploadOutlined /> }
-                                sx={{ mb: 3 }}
+                                sx={{ mb: 3,backgroundColor:'#274494'  }}
                             >
                                 Cargar imagen
                             </Button>
@@ -193,21 +262,22 @@ const ProductAdminPage = ({ product }:Props) => {
                                 label="Es necesario al 2 imagenes"
                                 color='error'
                                 variant='outlined'
+                                sx={{ mb: 1 }}
                             />
 
-                            <Grid container spacing={2}>
+                            <Grid container spacing={2} >
                                 {
                                     product.images.map( (img:any) => (
-                                        <Grid item xs={4} sm={3} key={img}>
-                                            <Card>
-                                                <CardMedia 
+                                        <Grid item xs={4} sm={3} key={img} >
+                                            <Card >
+                                                <CardMedia  
                                                     component='img'
                                                     className='fadeIn'
                                                     image={ `/products/${ img }` }
                                                     alt={ img }
                                                 />
                                                 <CardActions>
-                                                    <Button fullWidth color="error">
+                                                    <Button fullWidth color="error" sx={{backgroundColor:'red'}} >
                                                         Borrar
                                                     </Button>
                                                 </CardActions>
