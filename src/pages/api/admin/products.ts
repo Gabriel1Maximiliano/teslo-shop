@@ -8,6 +8,8 @@ type Data =
 |IProduct[]
 |{ message: string}
 |IProduct
+
+
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     switch ( req.method ) {
         case 'GET':
@@ -68,7 +70,7 @@ try {
 
     await db.disconnect();
 
-    return res.status(200).json( product )
+    return res.status(200).json( product );
 } catch (error) {
     console.log(error)
     await db.disconnect();
@@ -79,7 +81,41 @@ try {
     
 }
 
-function createProduct(req: NextApiRequest, res: NextApiResponse<Data>) {
-    return res.status(200).json({ message: 'soy un createProduct' })
+async function createProduct(req: NextApiRequest, res: NextApiResponse<Data>) {
+    
+    const { images=[] } = req.body as IProduct;
+    
+
+    if( images.length < 2  ){
+        return res.status(200).json({ message: 'To create a product at least 2 images' });
+    }
+
+    
+    //TODO posiblemente tendre un localhost:3000/produts/asadsad/jpg
+
+    try{
+
+        await db.connect();
+        const productInDataBase = await Product.findOne({ slug:req.body.slug });
+        if( productInDataBase ){
+            await db.disconnect();
+            return res.status(400).json({ message: 'This slug product already exists' });
+        }
+
+        const product =  new Product( req.body );
+
+        product.save();
+
+        await db.disconnect();
+
+        return res.status(201).json( product );
+
+    }catch(error){
+        await db.disconnect();
+  console.log(error);
+  return res.status(200).json({ message: 'To create a product at least 2 images' });
+
+    }
+    return res.status(200).json({ message: 'Check logs server' })
 }
 

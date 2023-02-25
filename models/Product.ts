@@ -1,21 +1,10 @@
 import { IProduct } from 'interfaces';
 import mongoose , { Schema,model,Model } from 'mongoose';
-/**
- * description: string;
-    images: string[];
-    inStock: number;
-    price: number;
-    sizes: ValidSizes[];
-    slug: string;
-    tags: string[];
-    title: string;
-    type: ValidTypes;
-    gender: 'men'|'women'|'kid'|'unisex'
- */
+
 
 const productSchema = new Schema({
     
-    description:{type:String, required:true},
+    description:{type:String, required:true,default:'' },
     images     :[{ type:String }],
     inStock    :{type:Number, required:true, default: 0},
     price      :{type:Number, required:true, default:0},
@@ -28,20 +17,22 @@ const productSchema = new Schema({
     }],
     slug      :{ type:String, required:true,unique:true },
     tags      :[{type:String}],
-    title     :{ type:String },
+    title     :{ type:String,required:true,default:'' },
     type      : {
         type: String,
         enum: {
             values: ['shirts','pants','hoodies','hats'],
             message: '{VALUE} no es un tipo válido'
-        }
+        },
+        default:'shirts'
     },
     gender  :{
         type:String,
         enum:{
             values:['men','women','kid','unisex'],
             message: '{VALUE} is not a valid genre' 
-        }
+        },
+        default:'women'
     }
 },{
 
