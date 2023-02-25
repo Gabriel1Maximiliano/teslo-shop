@@ -1,7 +1,7 @@
 
 import { GetServerSideProps } from 'next'
 
-import { DriveFileRenameOutline, SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import { DriveFileRenameOutline, FlashOnOutlined, SaveOutlined, UploadOutlined } from '@mui/icons-material';
 
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { AdminLayout } from 'components/layouts';
@@ -10,6 +10,7 @@ import { IProduct, ITypes } from 'interfaces';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { tesloApi } from 'api';
 
 
 const validTypes  = ['shirts','pants','hoodies','hats']
@@ -39,6 +40,7 @@ const ProductAdminPage = ({ product }:Props) => {
   
 
     const [ newTagValue, setnewTagValue ] = useState('');
+    const [ isSaving, setIsSaving ] = useState(false);
 
     const { register,handleSubmit,formState:{ errors },getValues,setValue,watch } = useForm({
         defaultValues:product,
@@ -81,9 +83,34 @@ if( name === 'title' ){
 }, [watch,setValue])
     
 
-    const onSubmitForm = (form:FormData)=>{
+const onSubmitForm = async(form:FormData)=>{
   console.log({form})
-    }
+  if( form.images.length < 2 ){
+    return alert('Mínimo 2 imágenes');
+} 
+
+setIsSaving(true);
+
+try{
+ const { data } = await tesloApi({
+    url:'/admin/products',
+    method:'PUT',
+    data: form
+ });
+ console.log({data})
+
+ if( !form._id ){
+ //TODO recargar navegador
+ }else{
+    setIsSaving(false);
+ }
+}catch(error){
+console.log(error);
+setIsSaving(false);
+}
+
+    
+}
 const onChangeSize = ( size:string )=>{
 
 const currentSizes= getValues( 'sizes' );
@@ -108,6 +135,7 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                         startIcon={ <SaveOutlined /> }  
                         sx={{ width: '150px',backgroundColor:'#274494'  }}
                         type="submit"
+                        disabled={ isSaving }
                         >
                         Guardar
                     </Button>
