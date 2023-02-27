@@ -27,8 +27,9 @@ const columns:GridColDef[] = [
             <CardMedia 
             component='img'
             className='fadeIn'
-            alt={`${ row.title }`}
-            image={`/products/${ row.img }`}
+            alt={`${ row.title }`}// image={`/products/${ row.img }`}
+            //image={`/products/${ row.img }`}
+            image={ row.img }
             />
           </a>
         )
@@ -67,7 +68,7 @@ const ProductsPage = () => {
     const { data, error } = useSWR<IProduct[]>('/api/admin/products');
 
     if ( !data && !error ) return (<></>);
-    
+   
     const rows = data!.map( product => ({
       id:product._id,
       img:product.images[0],

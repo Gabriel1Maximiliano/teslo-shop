@@ -13,18 +13,23 @@ export const ProductSlideshow = ( {images}:Props ) => {
      indicators>
        {
         images.map( image => {
-          const url = `products/${ image }`
+          //const url = `products/1740250-00-A_0_2000.jpg`
+          //const url = `products/${ image }`
+         
          
           return (
-            <div className={ styles['each-slide'] } key={ image } >
-              <div style={{ //products/${ product.images[0] }
-                backgroundImage:`url(/${ url })`,
+           
+             <div className={ styles['each-slide'] } key={ image } >
+              <div style={{ 
+               
+                backgroundImage:`url(${ image })`,// cambiar para trabajar sólo con imágenes != de cloudinari 
+            //     //backgroundImage:`/products/1473834-00-A_2_2000.jpg,/products/1473829-00-A_2_2000.jpg`,
+                 //backgroundImage: `${ image }`,
+                 backgroundSize:'cover'
+               }} >
 
-                backgroundSize:'cover'
-              }} >
-
-              </div>
-            </div>
+               </div>
+           </div>
           )
         } )
       }

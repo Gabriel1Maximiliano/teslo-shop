@@ -45,8 +45,7 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
      await db.connect();
 
      const dbProducts = await Product.find({ _id: { $in: productsIds } });
-    console.log({dbProducts})
-
+   
     try {
 
         const subTotal = orderItems.reduce( ( prev:any, current:any ) => {
@@ -60,8 +59,7 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         
         const taxRate =  Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
         const backendTotal = subTotal * ( taxRate + 1 );
-        console.log({total,backendTotal})
-        
+     
         if ( total !== backendTotal ) {
             throw new Error('El total no cuadra con el monto');
         }

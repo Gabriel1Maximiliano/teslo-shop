@@ -7,9 +7,12 @@ import { dbUsers } from 'database';
 
 
 
+
 export default NextAuth({
   // Configure one or more authentication providers
   secret: process.env.NEXT_AUHT_SECRET,// me da error JWEDecryptionFailed si no lo pongo
+  
+  
   providers: [
     
     // ...add more providers here
@@ -21,9 +24,6 @@ export default NextAuth({
       },
       
       authorize:  async function (credentials:any):Promise<any>{
-      
-
-
         return await dbUsers.checkUSerEmailPassword( credentials!.email, credentials!.password );
       }
     }),
@@ -33,9 +33,9 @@ export default NextAuth({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
     }),
-
-
   ],
+
+  
 
   //Custom Pages
   pages: {
@@ -58,6 +58,8 @@ export default NextAuth({
 
   callbacks: {
 
+   
+   
     async jwt({ token, account, user }) {
       //console.log({ token, account, user })
       // Persist the OAuth access_token and or the user id to the token right after signin
@@ -65,7 +67,7 @@ export default NextAuth({
         token.accessToken = account.access_token
         
       }
-      
+     
 
          switch( account?.type ) {
 
@@ -86,7 +88,7 @@ export default NextAuth({
      
      async session({ session, token,user }: { session: any; token: any,user:any }) {
 
-      //console.log({session,token,user})
+      console.log({session,token,user})
      session.accessToken = token.accessToken;
      session.user=token.user as any ;
       return session
@@ -94,7 +96,9 @@ export default NextAuth({
     
     
      }
-    }
+    },
+    
+  
 
 });
 

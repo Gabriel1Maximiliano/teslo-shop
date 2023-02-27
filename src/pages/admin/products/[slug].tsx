@@ -1,12 +1,13 @@
 
 import { GetServerSideProps } from 'next'
 
-import { DriveFileRenameOutline, FlashOnOutlined, SaveOutlined, UploadOutlined } from '@mui/icons-material';
-
+import  SaveOutlined from '@mui/icons-material/SaveOutlined';
+import UploadOutlined from '@mui/icons-material/UploadOutlined'
+import DriveFileRenameOutline   from '@mui/icons-material/DriveFileRenameOutline';
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { AdminLayout } from 'components/layouts';
 import { dbProducts } from 'database';
-import { IProduct, ITypes } from 'interfaces';
+import { IProduct } from 'interfaces';
 import { useForm } from 'react-hook-form';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
@@ -39,6 +40,7 @@ interface Props {
 }
 
 const ProductAdminPage = ({ product }:Props) => {
+   
   
     const router = useRouter();
 
@@ -68,13 +70,13 @@ const onFileSelected =async({ target }:any)=>{
         formData.append('file',file);
 
         const {data} = await tesloApi.post('/admin/upload',formData);
-        console.log( data.message )
+        
         setValue('images',[...getValues('images'), data.message],{shouldValidate:true})
     }
 } catch (error) {
     
 }
-console.log(target.files)
+
 }
 const onNewTag =()=>{
    const newTag = newTagValue.trim().toLowerCase();
@@ -114,7 +116,7 @@ if( name === 'title' ){
     
 
 const onSubmitForm = async(form:FormData)=>{
-  console.log({form})
+ 
   if( form.images.length < 2 ){
     return alert('Mínimo 2 imágenes');
 } 
@@ -127,7 +129,7 @@ try{
     method:form._id ?'PUT' : 'POST',
     data: form
  });
- console.log({data})
+ 
 
  if( !form._id ){
  //TODO recargar navegador
@@ -372,18 +374,20 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
                                 label="Es necesario al 2 imagenes"
                                 color='error'
                                 variant='outlined'
-                                sx={{ mb: 1 }}
+                                sx={{ mb: 1,display:getValues('images').length < 2 ? 'flex':'none' }}
                             />
 
                             <Grid container spacing={2} >
                                 {
                                     getValues('images').map( (img:any) => (
+                                       
                                         <Grid item xs={4} sm={3} key={img} >
                                             <Card >
                                                 <CardMedia  
                                                     component='img'
-                                                    className='fadeIn'
-                                                    image={ `/products/${ img }` }
+                                                    className='fadeIn' // '/products/${ image }
+                                                   //image={ `/products/${ img }` }
+                                                   image={ img }
                                                     alt={ img }
                                                 />
                                                 <CardActions>
@@ -411,9 +415,6 @@ setValue('sizes',[...currentSizes,size],{shouldValidate:true})
     )
 }
 
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     
@@ -425,7 +426,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const temporalProduct = JSON.parse( JSON.stringify( new Product() ) )
 
   delete temporalProduct._id;
-  temporalProduct.images = [ 'img1.jpg','img2.jpg' ];
+  //temporalProduct.images = [ 'img1.jpg','img2.jpg' ];
   product = temporalProduct;
     }else{
         product =await dbProducts.getProductBySlug(slug.toString());

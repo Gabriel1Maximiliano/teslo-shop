@@ -14,8 +14,10 @@ const [ isImageLoaded,setIsImageLoaded ] = useState(false);
 
 const productImage = useMemo(()=>{
   return isHoover 
-  ?  `/products/${ product.images[0] }` 
-  :  `/products/${ product.images[1] }`
+  // ?  `/products/${ product.images[0] }` 
+  // :  `/products/${ product.images[1] }`
+   ?   product.images[0]  
+   :  product.images[1] 
 },[isHoover,product.images])
 
   return (

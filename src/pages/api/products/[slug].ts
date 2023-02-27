@@ -32,7 +32,14 @@ const  getProductBySlug = async (req: NextApiRequest, res: NextApiResponse<Data>
     if( !product ){
         return res.status(404).json( {message:'Product not found'} );
     }
-
+    //TODO acomodar img recordar dejar asi si sacas las var de entorno '/products/${ image }'
+    //background-image:url(/https://res.cloudinary.com/dkgtcfce7/image/upload/v1677431351/n0lo04g1xmlgxldshxym.jpg);
+   //http//localhost:3000/products/8529107-00-A_0_2000.jpg
+ 
+   product.images = product.images.map( image => {
+    return image.includes('http') ? image : `${image}`
+});
+console.log(product)
    return res.status(200).json( product );
     
 }

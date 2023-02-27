@@ -10,11 +10,12 @@ import { lightTheme } from '../../themes/light-theme';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const keyClientPayPal = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({  Component,
+  pageProps: { session, ...pageProps }, }: AppProps) {
   
   return (
 <SessionProvider>
-  <PayPalScriptProvider options={{ "client-id": 'ARST-UyBmH4ArupBqPasgRjfxkpNo2VFg8RG4X2z3ugsGJqE5q7ONYBo6Fy-jsQOt5WD6XUj1a3LeuQE'|| '' }} >
+  <PayPalScriptProvider options={{ "client-id": keyClientPayPal || '' }} >
     <SWRConfig 
     value={{
       

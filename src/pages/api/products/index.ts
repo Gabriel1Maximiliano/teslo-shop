@@ -32,13 +32,23 @@ const  getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>)=> {
         condition = { gender:gender };
     }
     
+    
 
   await db.connect();
+  
 
   const products = await Product.find( condition )
  
 
   await db.disconnect();
-   return res.status(200).json( products );
+
+  const updatedProducts = products.map(product=>{
+    product.images = product.images.map( image=>{
+        return image.includes('http') ? image : `/products/${ image }`
+
+    } )
+    return product;
+})
+   return res.status(200).json( updatedProducts );
 }
 

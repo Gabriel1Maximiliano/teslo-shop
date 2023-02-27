@@ -20,7 +20,7 @@ interface Props {
 }
 
 const ProductPage = ( props:any) => {
-
+  console.log('EN PRODUCT SLUG '+props.images )
  const { addProductCart } =  useContext( CartContext );
 
   const [ tempCartProduct, setTempCartProduct ]= useState({
@@ -70,7 +70,7 @@ const ProductPage = ( props:any) => {
             <Grid item xs={ 12 } sm={ 7 }>
                 {/* SlideShow */}
                 <ProductSlideshow 
-            images={ props.images }
+            images={props.images } 
           />
                 {/* <ProductSlideshow images={ props.images } /> */}
             </Grid>
@@ -199,7 +199,3 @@ if( !props ){
 export default ProductPage;
 
 
-//  const router = useRouter();
-//  console.log('la query es '+ router.query.slug)
-
-//  const { products:produtc,isLoading } = useProducts(`/products/${router.query.slug}`);

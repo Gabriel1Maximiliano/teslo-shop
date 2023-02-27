@@ -43,8 +43,15 @@ async function getProducts(req: NextApiRequest, res: NextApiResponse<Data>) {
     .lean();
     await db.disconnect();
     //todo actualizar paginas 
+    const updatedProducts = products.map(product=>{
+        product.images = product.images.map( image=>{
+            return image.includes('http') ? image : `/products/${ image }`
 
-    return res.status(200).json( products )
+        } )
+        return product;
+    })
+
+    return res.status(200).json( updatedProducts );
 }
 async function updateProducts(req: NextApiRequest, res: NextApiResponse<Data>) {
     
