@@ -20,7 +20,7 @@ interface Props {
 }
 
 const ProductPage = ( props:any) => {
-  console.log('EN PRODUCT SLUG '+props.images )
+ 
  const { addProductCart } =  useContext( CartContext );
 
   const [ tempCartProduct, setTempCartProduct ]= useState({
