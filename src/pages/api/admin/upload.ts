@@ -9,11 +9,11 @@ cloudinary.config( process.env.CLOUDINARY_URL || '');
 type Data = {
     message: string
 }
-export const config =({
+export const config ={
     api:{
         bodyParser:false
     }
-})
+}
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     
     switch (req.method) {
