@@ -8,6 +8,7 @@ import { FullScreenLoading } from 'components/ui/FullScreenLoading'
 import { useProducts } from 'hooks'
 
 
+console.log(process.env)
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {

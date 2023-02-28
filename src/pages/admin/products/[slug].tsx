@@ -41,7 +41,7 @@ interface Props {
 
 const ProductAdminPage = ({ product }:Props) => {
    
-  
+  console.log({product})
     const router = useRouter();
 
     const fileInputRef = useRef<HTMLInputElement | null | any>();

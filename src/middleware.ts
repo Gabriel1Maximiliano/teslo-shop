@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 
 export async function middleware(req: NextRequest) {
   
-   const session = await getToken({ req, secret: process.env.NEXT_AUHT_SECRET });
+   const session = await getToken({ req, secret: process.env.NEXTAUHT_SECRET });
    
 
  
@@ -38,7 +38,7 @@ const userRole= data.role;
      
       const requestedPage = req.nextUrl.pathname;
       const url = req.nextUrl.clone();
-      url.pathname = '/api/404'
+      url.pathname = '/'
      return NextResponse.rewrite(url)
     };
   

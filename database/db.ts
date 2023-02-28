@@ -32,9 +32,11 @@ export const connect = async() => {
     }
     let conexion ='mongodb+srv://teslo:30osmogral@cluster0.nig3okm.mongodb.net/tesloDb'
 
-    await mongoose.connect( conexion || '');
+    await mongoose.connect( 'mongodb+srv://teslo:30osmogral@cluster0.nig3okm.mongodb.net/tesloDb'
+    || '');
     mongoConnection.isConnected = 1;
-    console.log('Conectado a MongoDB:', process.env.MONGO_URL );
+    console.log( process.env)
+    console.log('Conectado a MongoDB:', con );
 }
 
 export const disconnect = async() => {
