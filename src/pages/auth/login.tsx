@@ -1,9 +1,9 @@
 
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
-import { Box, Button, Chip, Divider, Grid, Link, TextField, Typography } from '@mui/material';
+
 import { AuthLayout } from 'components/layouts';
-import {  ErrorOutline } from "@mui/icons-material";
+import   ErrorOutline from "@mui/icons-material/ErrorOutline";
 import { validations } from 'utils';
 
 import {  useState, useEffect } from 'react';
@@ -11,8 +11,14 @@ import { useRouter } from 'next/router';
 import { getSession, signIn,getProviders } from "next-auth/react";
 
 import { GetServerSideProps } from 'next';
-
-
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Divider from "@mui/material/Divider";
 
 type FormData = {
     email   : string,

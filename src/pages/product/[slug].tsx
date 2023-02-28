@@ -1,5 +1,8 @@
 import { GetStaticProps } from 'next'
-import { Button, Chip, Grid, Typography } from "@mui/material";
+import Typography  from "@mui/material/Typography";
+import  Grid from "@mui/material/Grid";
+import  Chip from "@mui/material/Chip";
+import  Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { ShopLayouts } from "components/layouts";
 import { ProductSlideshow, SizeSelextor } from "components/products";
@@ -154,6 +157,14 @@ const ProductPage = ( props:any) => {
 
 
 export const  getStaticPaths:GetStaticPaths = async()=> {
+
+  /**
+   * function connectionStringHasValidScheme(connectionString) {
+    return (connectionString.startsWith('mongodb://') ||
+        connectionString.startsWith('mongodb+srv://'));
+}
+const HOSTS_REGEX = /^(?<protocol>[^/]+):\/\/(?:(?<username>[^:@]*)(?::(?<password>[^@]*))?@)?(?<hosts>(?!:)[^/?@]*)(?<rest>.*)/;
+   */
 
   const productSlugs = await dbProducts.getAllproductSlugs();
 

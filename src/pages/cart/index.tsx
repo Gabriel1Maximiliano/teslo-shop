@@ -1,4 +1,10 @@
-import { Box, Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material";
+import  Typography  from "@mui/material/Typography";
+import  Grid from "@mui/material/Grid";
+import  Divider from "@mui/material/Divider";
+import  CardContent from "@mui/material/CardContent";
+import   Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import  Box  from "@mui/material/Box";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";

@@ -6,7 +6,8 @@ import  DashboardOutlined from "@mui/icons-material/DashboardOutlined";
 import  CreditCardOutlined from "@mui/icons-material/CreditCardOutlined";
 import { SummaryTile } from 'components/admin';
 
-import { Grid, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import  Typography  from '@mui/material/Typography';
 import  AttachMoneyOutlined from '@mui/icons-material/AttachMoneyOutlined';
 import  CreditCardOffOutlined from '@mui/icons-material/CreditCardOffOutlined';
 import  CategoryOutlined from '@mui/icons-material/CategoryOutlined';
@@ -17,6 +18,7 @@ import  AccessTimeOutlined from '@mui/icons-material/AccessTimeOutlined';
 import useSWR from 'swr';
 import { DAshBoardSummaryResponse } from '../../../interfaces/dashboard';
 import { useState } from 'react';
+
 
 
 

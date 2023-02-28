@@ -1,5 +1,13 @@
-import  ClearAllOutlined from "@mui/icons-material/ClearAllOutlined";
-import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from "@mui/material"
+
+import  Typography  from "@mui/material/Typography"
+import  Toolbar from "@mui/material/Toolbar"
+import  Link from "@mui/material/Link"
+import  InputAdornment from "@mui/material/InputAdornment"
+import  Input from "@mui/material/Input"
+import  IconButton  from "@mui/material/IconButton"
+import   Button  from "@mui/material/Button"
+import  Box  from "@mui/material/Box"
+import   Badge  from "@mui/material/Badge"
 import NextLink from 'next/link';
 import { useRouter } from "next/router";
 import { UIContext } from '../../context/ui/UIContext';
@@ -9,6 +17,7 @@ import { CartContext } from '../../context/cart/CartContext';
 import  ClearOutlined from "@mui/icons-material/ClearOutlined";
 import  SearchOutlined from "@mui/icons-material/SearchOutlined";
 import  ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import AppBar from "@mui/material/AppBar";
 
 
 

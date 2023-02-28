@@ -1,6 +1,15 @@
 import NextLink from 'next/link';
+import   Typography  from '@mui/material/Typography';
 
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from "@mui/material";
+
+import    CardContent  from '@mui/material/CardContent';
+
+import   Card from '@mui/material/Card';
+import  Box from '@mui/material/Box';
+import  Chip from '@mui/material/Chip';
+
+import  Divider from '@mui/material/Divider';
+import  Link from "@mui/material/Link";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";
@@ -9,7 +18,8 @@ import { CartContext } from '../../../context/cart/CartContext';
 import { countries } from 'utils';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 
 
 

@@ -1,9 +1,8 @@
-
-
-import { Box ,Card, CardContent, Chip, Divider, Grid, Typography } from "@mui/material";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { AdminLayout } from "components/layouts";
+
+
 import  CreditCardOffOutlined from '@mui/icons-material/CreditCardOffOutlined';
 import  CreditScoreOutlined  from '@mui/icons-material/CreditScoreOutlined';
 
@@ -13,9 +12,14 @@ import { GetServerSideProps, NextPage } from 'next';
 import { dbOrder } from 'database';
 import { IOrder } from 'interfaces';
 
-import { AirplaneTicketOutlined } from "@mui/icons-material";
-
-
+import  AirplaneTicketOutlined  from "@mui/icons-material/AirplaneTicketOutlined";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import CardContent from "@mui/material/CardContent";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
 
 interface Props {
     order:IOrder;

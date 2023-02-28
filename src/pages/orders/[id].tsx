@@ -1,6 +1,12 @@
 
-
-import { Box ,Card, CardContent, Chip, CircularProgress, Divider, Grid, Typography } from "@mui/material";
+import  Box from '@mui/material/Box';
+import  Card from '@mui/material/Card';
+import  CardContent from '@mui/material/CardContent';
+import  Chip from '@mui/material/Chip';
+import  CircularProgress from '@mui/material/CircularProgress';
+import  Divider from '@mui/material/Divider';
+import  Grid from '@mui/material/Grid';
+import  Typography  from "@mui/material/Typography";
 import { CartList } from "components/cart";
 import { OrdenSummary } from "components/cart/OrdenSummary";
 import { ShopLayouts } from "components/layouts";
@@ -15,7 +21,6 @@ import { IOrder } from 'interfaces';
 import tesloApi from '../../../api/tesloApi';
 import { useRouter } from "next/router";
 import { useState } from "react";
-
 
 export type OrderResponseBody = {
     id: string;

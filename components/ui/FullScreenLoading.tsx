@@ -1,4 +1,6 @@
-import { Box, CircularProgress, Typography } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import  CircularProgress from "@mui/material/CircularProgress"
+import Box from "@mui/material/Box"
 import { ShopLayouts } from "components/layouts"
 
 

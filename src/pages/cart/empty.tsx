@@ -1,5 +1,7 @@
-import { RemoveShoppingCartOutlined } from "@mui/icons-material"
-import { Box, Link, Typography } from "@mui/material"
+import  RemoveShoppingCartOutlined  from "@mui/icons-material/RemoveShoppingCartOutlined"
+import  Typography  from "@mui/material/Typography"
+import  Link from "@mui/material/Link"
+import  Box from "@mui/material/Box"
 import { ShopLayouts } from "components/layouts"
 import NextLink from 'next/link';
 

@@ -2,7 +2,10 @@
 
 import NextLink from 'next/link';
 
-import { Typography, Grid, Chip, Link } from '@mui/material';
+import  Typography  from '@mui/material/Typography';
+import  Grid from '@mui/material/Grid';
+import  Chip from '@mui/material/Chip';
+import  Link  from '@mui/material/Link';
 import { DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import { ShopLayouts } from 'components/layouts';
 
@@ -10,6 +13,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 import { dbOrder } from 'database';
 import { IOrder } from '../../../interfaces/Order';
+
 
 
 interface Props {

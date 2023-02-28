@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import  Typography  from "@mui/material/Typography";
 import { ProductList } from 'components/products';
 import { FullScreenLoading } from 'components/ui/FullScreenLoading';
 import { ShopLayouts } from '../../../components/layouts/ShopLayouts';

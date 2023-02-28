@@ -2,13 +2,18 @@
 
 import { FC, useContext } from 'react';
 import NextLink from 'next/link';
-import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
-
 import { initialData } from '../../database/seedData';
 import { ItemCouter } from '../ui';
 import { ICartProduct } from 'interfaces';
 import { CartContext } from 'context/cart';
 import { IOrderItem } from '../../interfaces/Order';
+import Grid from '@mui/material/Grid';
+import CardActionArea from '@mui/material/CardActionArea';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const productsInCart = [
     initialData.products[0],

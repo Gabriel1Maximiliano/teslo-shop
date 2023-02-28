@@ -9,10 +9,13 @@ import mongoose from 'mongoose';
 const mongoConnection = {
     isConnected: 0
 }
+
+const con = process.env.MONGO_URL;
 mongoose.set("strictQuery", false);
 export const connect = async() => {
 
     if ( mongoConnection.isConnected ) {
+        console.log(con)
         console.log('Ya estabamos conectados');
         return;
     }
@@ -27,8 +30,9 @@ export const connect = async() => {
 
         await mongoose.disconnect();
     }
+    let conexion ='mongodb+srv://teslo:30osmogral@cluster0.nig3okm.mongodb.net/tesloDb'
 
-    await mongoose.connect( process.env.MONGO_URL || '');
+    await mongoose.connect( conexion || '');
     mongoConnection.isConnected = 1;
     console.log('Conectado a MongoDB:', process.env.MONGO_URL );
 }

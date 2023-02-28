@@ -1,7 +1,15 @@
-import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
+
 import { useMemo, useState } from 'react';
 import { IProduct } from '../../interfaces/products';
 import  NextLink from 'next/link';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
+import CardActionArea from '@mui/material/CardActionArea';
+import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 
 interface Props {
   product:IProduct;

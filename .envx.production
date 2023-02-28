@@ -6,7 +6,7 @@ MONGO_URL = mongodb+srv://teslo:30osmogral@cluster0.nig3okm.mongodb.net/tesloDb
 NEXT_PUBLIC_TAX_RATE =0.15
 JWT_SECRET_SEED=esto es una seed de mis tokens
 NEXT_AUHT_SECRET =esto es una seed de mis tokens
-
+NEXT_PUBLIC_SECRET=anything
 
 #Providers github authentication
 GITHUB_ID=5faa2912ce6823df7370

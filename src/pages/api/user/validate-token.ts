@@ -34,7 +34,7 @@ const  checkJwt = async (req: NextApiRequest, res: NextApiResponse<Data>)=> {
   let userId =''
   try {
     userId = await jwt.isValidToken(token.toString());
-    console.log({userId})
+ 
   } catch (error) {
     return res.status(401).json({message:'Token invalid'})
   }

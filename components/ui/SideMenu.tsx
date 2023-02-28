@@ -1,4 +1,9 @@
-import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
+
+import  Divider from  "@mui/material/Divider"
+import ListSubheader  from "@mui/material/ListSubheader"
+import  ListItemText  from "@mui/material/ListItemText"
+import  ListItemIcon from "@mui/material/ListItemIcon"
+
 import  AdminPanelSettings from "@mui/icons-material/AdminPanelSettings"
 import  CategoryOutlined from "@mui/icons-material/CategoryOutlined"
 import  VpnKeyOutlined from "@mui/icons-material/VpnKeyOutlined"
@@ -17,6 +22,14 @@ import { UIContext } from '../../context/ui/UIContext';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../context/auth/AuthContext';
 import DashboardOutlined from "@mui/icons-material/DashboardOutlined"
+import InputAdornment from "@mui/material/InputAdornment"
+import Drawer from "@mui/material/Drawer"
+import ListItem from "@mui/material/ListItem"
+import IconButton from "@mui/material/IconButton"
+import List from "@mui/material/List"
+import Input from "@mui/material/Input"
+import Box from "@mui/material/Box"
+
 
 
 export const SideMenu = () => {

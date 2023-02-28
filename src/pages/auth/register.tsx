@@ -1,5 +1,5 @@
-import { ErrorOutline } from '@mui/icons-material';
-import { Box, Grid, Typography,Link, TextField, Button, Chip } from '@mui/material';
+import  ErrorOutline  from '@mui/icons-material/ErrorOutline';
+import  Chip  from '@mui/material/Chip';
 import { getSession, signIn } from "next-auth/react";
 import { AuthLayout } from 'components/layouts';
 import NextLink from 'next/link';
@@ -10,7 +10,12 @@ import { validations } from 'utils';
 import { useContext } from 'react';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { GetServerSideProps } from 'next';
-
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 
 
 type FormData = {
