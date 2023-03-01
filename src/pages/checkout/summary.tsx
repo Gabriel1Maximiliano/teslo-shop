@@ -119,7 +119,7 @@ const onCreateOrder = async()=>{
                         <Chip
                         color='error'
                         label={ errorMessage }
-                        sx={ { display: errorMessage ? 'flex' :'none',mt:1 }}
+                        sx={ { display: errorMessage ? 'none' :'flex',mt:1 }}
                         />
                         </Box>
 
