@@ -10,8 +10,8 @@ import { dbUsers } from 'database';
 
 export default NextAuth({
   // Configure one or more authentication providers
-  //secret: process.env.NEXTAUTH_SECRET,// me da error JWEDecryptionFailed si no lo pongo
-  secret: process.env.NEXT_PUBLIC_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,// me da error JWEDecryptionFailed si no lo pongo
+  //secret: process.env.NEXT_PUBLIC_SECRET,
   
   providers: [
     
