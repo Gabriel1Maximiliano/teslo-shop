@@ -144,7 +144,7 @@ const navigateTo = (url:string) =>{
                         <ListItemText primary={'Salir'} />
                     </ListItem>
                     ):( <ListItem button
-                    onClick={()=>navigateTo(`/auth/login?p=${ router.asPath }`)}
+                    onClick={()=>navigateTo(`/auth/login`)}
                     >
                         <ListItemIcon>
                             <VpnKeyOutlined/>
