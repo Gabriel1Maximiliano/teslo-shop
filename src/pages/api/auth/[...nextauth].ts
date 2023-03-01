@@ -17,16 +17,16 @@ export default NextAuth({
     
     // ...add more providers here
 
-    Credentials({
-      credentials:{
-      email: { label: 'Correo:', type: 'email', placeholder: 'correo@google.com'  },
-      password: { label: 'Contraseña:', type: 'password', placeholder: 'Contraseña'  },
-      },
+    //Credentials({
+      //credentials:{
+      //email: { label: 'Correo:', type: 'email', placeholder: 'correo@google.com'  },
+      //password: { label: 'Contraseña:', type: 'password', placeholder: 'Contraseña'  },
+      //},
       
-      authorize:  async function (credentials:any):Promise<any>{
-        return await dbUsers.checkUSerEmailPassword( credentials!.email, credentials!.password );
-      }
-    }),
+      //authorize:  async function (credentials:any):Promise<any>{
+        //return await dbUsers.checkUSerEmailPassword( credentials!.email, credentials!.password );
+      //}
+    //}),
 
 
     GithubProvider({
