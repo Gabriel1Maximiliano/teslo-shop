@@ -46,7 +46,7 @@ export default NextAuth({
   
   // Callbacks
   jwt: {
-    // secret: process.env.JWT_SECRET_SEED, // deprecated
+     secret: process.env.JWT_SECRET_SEED, // deprecated
   },
   
   session: {
