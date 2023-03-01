@@ -14,7 +14,7 @@ const keyClientPayPal = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}) {
+}:AppProps)  {
   return (
 <SessionProvider  session={session}>
   <PayPalScriptProvider options={{ "client-id": keyClientPayPal || '' }} >
