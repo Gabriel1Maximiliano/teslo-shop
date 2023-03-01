@@ -158,7 +158,8 @@ const navigateTo = (url:string) =>{
                 {/* Admin */}
 
                 {
-                    (user?.role === 'admin') && (
+                    //(user?.role === 'admin') 
+                    true && (
                         <>
                         <Divider />
                         <ListSubheader>Admin Panel</ListSubheader>
