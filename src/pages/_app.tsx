@@ -11,9 +11,12 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const keyClientPayPal = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-<SessionProvider>
+<SessionProvider  session={session}>
   <PayPalScriptProvider options={{ "client-id": keyClientPayPal || '' }} >
     <SWRConfig 
     value={{
